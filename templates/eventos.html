@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.2/css/all.css" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
-    <title>Academia Poro</title>
+    <title>Academia Poro-Eventos</title>
 </head>
 <body>
 
@@ -37,7 +37,6 @@
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('eventos') }}">Eventos</a>
-                    <a class="nav-link" href="{{ url_for('eventosUser') }}">Eventos usuario</a>
                   </li>
                   <li class="nav-item dropdown">
                     <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
@@ -55,6 +54,49 @@
           </nav>
     </header>
 
-    <h1 class="h2">Pagina de inicio</h1>
+
+        <div class="container d-flex justify-content-between align-items-center" style="margin-top: 1rem;">
+            <h2 class="h2 fw-bold" style="color:#9DC8E4;">Eventos</h2>
+            <a href="{{ url_for('addEventos') }}" class="btn" style="background-color: #F0731F;"> 
+                <span class="text-light" style="text-decoration: none; font-weight: 600;">Agregar evento</span>
+            </a>
+        </div>
+
+    <div class="container">
+        <div class="row">
+            {% for evento in eventos %}
+                <div class="card-deck" style="margin-top: 1rem;">
+                    <div class="col-sm-8">
+                        <div class="card w-500 border-0" style="background-color: #e7e7e794; color:#1F5D83;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ evento.nombre }}</h5>
+                                <p class="card-text">{{ evento.descripcion }}</p>
+                                <p class="card-text"><strong>Fecha de publicación: </strong>{{ evento.fecha}}</p>
+                                <div class="d-flex justify-content-end">
+                                    <a href="{{ url_for('edit_evento', Eventos_id=evento._id) }}" class="btn btn-link"><i class="fa-solid fa-pencil"></i></a>
+                                    <form action="{{ url_for('delete', Eventos_id=evento._id) }}" method="POST" style="display: inline;"  onsubmit="return confirmDelete()">
+                                        <button type="submit" class="btn btn-link">
+                                            <i class="fa-solid fa-trash text-danger"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function confirmDelete() {
+            if (confirm("¿Estás seguro de que quieres eliminar este evento?")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
+
 </body>
 </html>

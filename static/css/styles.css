@@ -1,0 +1,15 @@
+/*Estilo para ajustar a un tamanio especifico del card*/
+.custom-card {
+    min-height: 10rem;
+    max-height: 20rem; 
+    overflow: hidden; 
+}
+/* Estilo para botones */
+.btn:hover {
+    opacity: 0.8;
+}
+
+/* Estilo para enlaces */
+a:hover {
+    opacity: 0.8; 
+}
