@@ -4,6 +4,7 @@ from bson import ObjectId
 from models.eventos import Eventos
 from models.cursos import Cursos
 from models.calificaciones import Calificaciones
+from models.Usuario import Usuario
 
 app = Flask(__name__)
 
@@ -13,6 +14,16 @@ db = database.dbConnection()
 @app.route('/')
 def home(): 
      return render_template('index.html')
+
+# Usuarios
+
+#@app.route('/user/login', methods=['POST'])
+#def sesion():
+#    return Usuario().iniciarSesion()
+
+@app.route('user/signup', methods="POST")
+def registro():
+    return Usuario().registroUsuario()
 
 #Metodo para enrutar
 @app.route('/eventosUser')
