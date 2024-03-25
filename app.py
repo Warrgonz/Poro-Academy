@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, Response, jsonify, redirect, 
 import db.conexion as database 
 from bson import ObjectId
 from models.eventos import Eventos
+from models.calificaciones import Calificaciones
 
 app = Flask(__name__)
 
@@ -99,6 +100,85 @@ def delete(Eventos_id):
     eventos = db['Eventos']
     eventos.delete_one({'_id': ObjectId(Eventos_id)})
     return redirect(url_for('eventos'))
+
+
+'''
+Metodos para administrar calificaciones
+'''
+
+#metodo para enrutar y mostar la lista de calificaciones
+@app.route('/calificaciones')
+def calificaciones(): 
+    calificaciones = db['Calificaciones'] 
+    listaCalificaciones = calificaciones.find()
+    return render_template('calificaciones.html', calificaciones=listaCalificaciones)
+
+
+# Método get agregar
+@app.route('/calificaciones/add_calificacion', methods=['GET'])
+def get_add_calificacion():
+    # Renderiza el formulario para agregar una nueva calificacion
+    return render_template('add_calificacion.html')
+
+# Método post agregar
+@app.route('/calificaciones/add_calificacion', methods=['POST'])
+def addCalificaciones():
+    calificaciones = db['Calificaciones']
+    if request.method == 'POST':
+        nombre_estudiante = request.form['nombre_estudiante']
+        nombre_curso = request.form['nombre_curso']
+        seccion = request.form['seccion']
+        rubro = request.form['rubro']
+        calificacion = request.form['calificacion']
+
+        if nombre_estudiante and nombre_curso and seccion and rubro and calificacion:
+            calificacion = Calificaciones(nombre_estudiante, nombre_curso, seccion, rubro, calificacion)
+            calificaciones.insert_one(calificacion.toDBCollection())
+            return redirect(url_for('calificaciones'))
+        else:
+            return notFound()
+    else:
+        return "Método no permitido"  # Manejar el caso de que se intente acceder con otro método que no sea POST
+
+#Metodo Get Edit
+@app.route('/calificaciones/edit_calificacion/<string:Calificaciones_id>', methods=['GET'])
+def get_edit_calificacion(Calificaciones_id):
+    calificaciones = db['Calificaciones']
+    # Obtener el evento de la base de datos
+    calificacion = calificaciones.find_one({'_id': ObjectId(Calificaciones_id)})
+    if calificacion:
+        # Pasar los datos del evento a la plantilla para mostrarlos en el formulario
+        return render_template('edit_calificacion.html', event=calificacion)
+    else:
+        # Manejar el caso en que el evento no se encuentre en la base de datos
+        return "Calificación no encontrada"
+
+#Metodo Post Edit
+@app.route('/calificaciones/edit_calificacion/<string:Calificaciones_id>', methods=['POST'])
+def edit_calificacion(Calificaciones_id):
+    calificaciones = db['Calificaciones']
+    nombre_estudiante = request.form['nombre_estudiante']
+    nombre_curso = request.form['nombre_curso']
+    seccion = request.form['seccion']
+    rubro = request.form['rubro']
+    calificacion = request.form['calificacion']
+
+    if nombre_estudiante and nombre_curso and seccion and rubro and calificacion:
+        calificaciones.update_one({'_id': ObjectId(Calificaciones_id)}, {'$set': {'nombre_estudiante': nombre_estudiante, 
+                                                                                  'nombre_curso': nombre_curso, 
+                                                                                  'seccion': seccion, 
+                                                                                  'rubro': rubro, 
+                                                                                  'calificacion': calificacion}})
+        return redirect(url_for('calificaciones'))
+    else:
+        return notFound()
+    
+# Método DELETE
+@app.route('/calificaciones/delete/<string:Calificaciones_id>', methods=['POST'])
+def deleteCalificacion(Calificaciones_id):
+    calificaciones = db['Calificaciones']
+    calificaciones.delete_one({'_id': ObjectId(Calificaciones_id)})
+    return redirect(url_for('calificaciones'))
 
 # Lanzar aplicación
 if __name__ == '__main__':
