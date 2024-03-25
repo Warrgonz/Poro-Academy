@@ -1,3 +1,11 @@
+// Navbar toggler.
+
+const hamBurger = document.querySelector(".toggle-btn");
+
+hamBurger.addEventListener("click", function () {
+  document.querySelector("#sidebar").classList.toggle("expand");
+});
+
 // Login
 
 $("form[name=login_form]").submit(function(e){
@@ -15,6 +23,7 @@ $("form[name=login_form]").submit(function(e){
             window.location.href = "/dashboard";
         },
         error: function(resp){
+            console.log(resp);
             $error.text(resp.responseJSON.error).removeClass("error--hidden");
         }
     });
@@ -36,7 +45,7 @@ $("form[name=signup_form]").submit(function(e){
         data: data,
         dataType: "json",
         success: function(resp){
-            window.location.href = "templates/index.html";
+            window.location.href = "registroUsuarios.html";
         },
         error: function(resp){
             $error.text(resp.responseJSON.error).removeClass("error--hidden");

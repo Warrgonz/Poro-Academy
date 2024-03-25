@@ -1,76 +1,75 @@
 {% extends "base.html" %}
 {% block content %}
-  <!--  Btn modal -->
-  <section>
-    <!-- Template inserted here -->
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<section>
+  <div class="container pt-5 d-flex justify-content-between">
+    <h1>Usuarios</h1>
+    <button type="button" class="btn btn-agregar" data-bs-toggle="modal" data-bs-target="#exampleModal">
       Agregar usuario
     </button>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar usuario</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form name="signup_form" method="POST">
-              <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre completo</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="emailHelp">
-              </div>
-              <div class="mb-3">
-                <label for="cedula" class="form-label">Cédula</label>
-                <input type="number" min="0" class="form-control" id="cedula" name="cedula"
-                  aria-describedby="emailHelp">
-              </div>
-              <div class="mb-3">
-                <label for="correo" class="form-label">Correo electronico</label>
-                <input type="email" min="0" class="form-control" id="correo" name="correo" aria-describedby="emailHelp">
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input type="password" min="0" class="form-control" id="password" name="password"
-                  aria-describedby="emailHelp">
-              </div>
-              <div class="mb-3"> <!--Sugerencia: Crear una CRUD de roles, y crear el drop down menu de roles-->
-                <label for="rol" class="form-label">Rol</label>
-                <input type="text" min="0" class="form-control" id="rol" name="rol" aria-describedby="emailHelp">
-              </div>
-              <div class="mb-3"> <!--Sugerencia: Manejo de errores-->
-                <p class="error error--hidden"></p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Guardar</button>
-              </div>
-            </form>
-          </div>
+  </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar usuario</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form name="signup_form" method="POST">
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre completo</label>
+              <input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="cedula" class="form-label">Cédula</label>
+              <input type="number" min="0" class="form-control" id="cedula" name="cedula" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="correo" class="form-label">Correo electronico</label>
+              <input type="email" min="0" class="form-control" id="correo" name="correo" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input type="password" min="0" class="form-control" id="password" name="password"
+                aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3"> <!--Sugerencia: Crear una CRUD de roles, y crear el drop down menu de roles-->
+              <label for="rol" class="form-label">Rol</label>
+              <input type="text" min="0" class="form-control" id="rol" name="rol" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3"> <!--Sugerencia: Manejo de errores-->
+              <p class="error error--hidden"></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success">Guardar</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  </section>
-  <section class="container">
-    <table class="table table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">Nombre</th>
-          <th scope="col">Cédula</th>
-          <th scope="col">Correo Electrónico</th>
-          <th scope="col">Rol</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for usuario in usuarios %}
-        <tr>
-            <td>{{ usuario.nombre_completo }}</td>
-            <td>{{ usuario.cedula }}</td>
-            <td>{{ usuario.correo_electronico }}</td>
-            <td>{{ usuario.rol }}</td>
-        </tr>
-        {% endfor %}
+  </div>
+</section>
+<section class="container table-responsive">
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Cédula</th>
+        <th scope="col">Correo Electrónico</th>
+        <th scope="col">Rol</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for usuario in usuarios %}
+      <tr>
+        <td>{{ usuario.nombre_completo }}</td>
+        <td>{{ usuario.cedula }}</td>
+        <td>{{ usuario.correo_electronico }}</td>
+        <td>{{ usuario.rol }}</td>
+      </tr>
+      {% endfor %}
     </tbody>
-    </table>
-  </section>
-  {% endblock %}
+  </table>
+</section>
+{% endblock %}

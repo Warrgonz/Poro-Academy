@@ -20,10 +20,14 @@ class Usuario:
             "rol": form_data.get('rol')
         }
 
-        db.Usuarios.insert_one(usuario)
+        if db.Usuarios.find_one({"email": usuario['correo_electronico']}):
+            return jsonify({"error": "el correo ya está en uso"}), 400
+        
+        if db.Usuarios.insert_one(usuario):
+           return self.start_session(usuario)
 
-        return jsonify(usuario), 200
-
+        return jsonify({"error": "Signup failed"}), 400
+    
     def obtenerUsuarios(self):
         usuarios = list(db.Usuarios.find())
         return usuarios

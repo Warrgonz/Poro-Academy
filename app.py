@@ -7,6 +7,7 @@ from models.calificaciones import Calificaciones
 from models.Usuario import Usuario
 
 app = Flask(__name__)
+app.secret_key = b'g\x13\x94z\xec\xfc\xf5g\xf9\xc9\x05\xf2;9F\x9b'
 
 db = database.dbConnection()
 
