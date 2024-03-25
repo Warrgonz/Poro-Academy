@@ -21,9 +21,15 @@ def home():
 #def sesion():
 #    return Usuario().iniciarSesion()
 
-@app.route('user/signup', methods="POST")
+@app.route('/user/signup', methods=["GET", "POST"])
 def registro():
-    return Usuario().registroUsuario()
+    if request.method == "POST":
+        Usuario().registroUsuario(request.form)  
+        return redirect(url_for('registro'))
+    else:
+        usuarios = Usuario().obtenerUsuarios()
+        return render_template('registroUsuarios.html', usuarios=usuarios)
+    
 
 #Metodo para enrutar
 @app.route('/eventosUser')
