@@ -14,38 +14,33 @@
     <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
 </head>
 
-<body>
-    <header class="wrapper">
-        <nav id="sidebar">
-            <div class="d-flex">
-                <button class="toggle-btn" type="button">
-                    <i class="lni lni-grid-alt"></i>
-                </button>
-            </div>
-            <div class="sidebar-logo">
-                <img class="poro-logo" src="/static/images/logo.png" alt="Academia Poro">
-            </div>
-            <ul class="sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-user"></i>
-                        <span>Usuarios</span>
-                    </a>
-                </li>
-            </ul>
-            <div class="sidebar-footer">
-                <a href="/user/signout" class="sidebar-link">
-                    <i class="lni lni-exit"></i>
-                    <span>Cerrar sesion</span>
-                </a>
-            </div>
-        </nav>
-        <div class="main p-3">
-            <div>
-                {% block content %}{% endblock %}
+<body style="background-color: #1f5d83;">
+    <section class="login row d-flex vh-100 vw-100 justify-content-center align-items-center">
+        <div class="col-sm-12 col-md-6 col-lg-6 text-center">
+            <img src="/static/images/logo.png" alt="Academia poro">
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="card" style="width: 20rem;">
+                <div class="card-body">
+                    <h4 class="card-title text-center">Iniciar sesión</h4>
+                    <form name="login_form" method="POST">
+                        <div class="mb-3">
+                            <label for="correo" class="form-label">Correo electronico</label>
+                            <input type="email" class="form-control" id="correo" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-agregar">Iniciar sesión</button>
+                        </div>
+                    </form>
+
+                </div>
             </div>
         </div>
-    </header>
+    </section>
     <!-- jQuery y Bootstrap JS -->
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -1,15 +1,24 @@
-from flask import Flask, render_template, request, Response, jsonify, redirect, url_for
+from flask import Flask, render_template, request, Response, jsonify, redirect, url_for, session
 import db.conexion as database 
 from bson import ObjectId
 from models.eventos import Eventos
 from models.cursos import Cursos
 from models.calificaciones import Calificaciones
 from models.Usuario import Usuario
+from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = b'g\x13\x94z\xec\xfc\xf5g\xf9\xc9\x05\xf2;9F\x9b'
 
 db = database.dbConnection()
+
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            return redirect('/') #Especificar aqui donde lo va mandar si no esta loggeado.
 
 #metodo para enrutar al index
 @app.route('/')
@@ -18,9 +27,13 @@ def home():
 
 # Usuarios
 
-#@app.route('/user/login', methods=['POST'])
-#def sesion():
-#    return Usuario().iniciarSesion()
+@app.route('/login.html')
+def login_html():
+    return render_template('login.html')
+
+@app.route('/user/login', methods=["POST"])
+def login():
+ return Usuario().iniciarSesion()
 
 @app.route('/user/signup', methods=["GET", "POST"])
 def registro():
@@ -31,6 +44,10 @@ def registro():
         usuarios = Usuario().obtenerUsuarios()
         return render_template('registroUsuarios.html', usuarios=usuarios)
     
+@app.route('/user/signout')
+def salir():
+    return Usuario().cerrarSesion()
+
 
 #Metodo para enrutar
 @app.route('/eventosUser')

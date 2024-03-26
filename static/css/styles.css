@@ -1,20 +1,20 @@
-.poro-logo{
+.poro-logo {
     width: 100%;
     padding-left: 40px;
-    padding-right: 40px;  
+    padding-right: 40px;
 }
 
 .table-responsive {
     overflow-x: auto;
 }
 
-.btn-agregar{
+.btn-agregar {
     background: #f0731f;
     font-weight: bolder;
     color: white;
 }
 
-.btn-agregar:hover{
+.btn-agregar:hover {
     background: #f4943d;
     font-weight: bolder;
     color: white;
@@ -23,9 +23,10 @@
 /*Estilo para ajustar a un tamanio especifico del card*/
 .custom-card {
     min-height: 10rem;
-    max-height: 20rem; 
-    overflow: hidden; 
+    max-height: 20rem;
+    overflow: hidden;
 }
+
 /* Estilo para botones */
 .btn:hover {
     opacity: 0.8;
@@ -33,5 +34,5 @@
 
 /* Estilo para enlaces */
 a:hover {
-    opacity: 0.8; 
+    opacity: 0.8;
 }

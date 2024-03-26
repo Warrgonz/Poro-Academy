@@ -1,5 +1,6 @@
 from flask import request, jsonify, session, redirect, url_for, render_template
 from db.conexion import dbConnection
+from werkzeug.security import check_password_hash
 import uuid
 
 db = dbConnection()
@@ -28,6 +29,11 @@ class Usuario:
 
         return jsonify({"error": "Signup failed"}), 400
     
+    def cerrarSesion(self):
+        session.clear()
+        return redirect('/')
+
+
     def obtenerUsuarios(self):
         usuarios = list(db.Usuarios.find())
         return usuarios
@@ -35,14 +41,8 @@ class Usuario:
     def iniciarSesion(self):
         user = db.users.find_one({
             "email": request.form.get('email')
-        })
-        # Validación de roles
-        # if Usuario:
-        #     return self.start_session(Usuario)
-        # return jsonify({"error: Credenciales invalidas"}), 401
-# Validacion de roles
+        }) 
+        if user and check_password_hash(user['contrasena'], request.form.get('password')):
+            return self.start_session(user)
     
-# if Usuario:
-#    return self.start_session(Usuario)
-    
-#return jsonify({"error: Credenciales invalidas"}), 401
+        return jsonify({"error: Credenciales invalidas"}), 401
