@@ -9,7 +9,6 @@ hamBurger.addEventListener("click", function () {
 // Login
 
 $("form[name=login_form]").submit(function(e){
-
     var $form = $(this);
     var $error = $form.find(".error");
     var data = $form.serialize();
@@ -22,14 +21,18 @@ $("form[name=login_form]").submit(function(e){
         success: function(resp){
             window.location.href = "/dashboard/";
         },
-        error: function(resp){
-            console.log(resp);
-            $error.text(resp.responseJSON.error).removeClass("error--hidden");
+        error: function(xhr, status, error){
+            if (xhr.status === 401) {
+                $error.text("Credenciales inválidas").removeClass("error--hidden");
+            } else {
+                $error.text("Error al procesar la solicitud").removeClass("error--hidden");
+            }
         }
     });
 
     e.preventDefault();
-})
+});
+
 
 // Sign up
 

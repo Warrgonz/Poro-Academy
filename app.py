@@ -12,6 +12,10 @@ app.secret_key = b'g\x13\x94z\xec\xfc\xf5g\xf9\xc9\x05\xf2;9F\x9b'
 
 db = database.dbConnection()
 
+usuario = Usuario(app)
+
+usuario.crearUsuarioAdmin()
+
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -33,7 +37,8 @@ def login_html():
 
 @app.route('/user/login', methods=["POST"])
 def login():
- return Usuario().iniciarSesion()
+    return Usuario().iniciarSesion()
+
 
 @app.route('/user/signup', methods=["GET", "POST"])
 def registro():

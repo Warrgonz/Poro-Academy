@@ -23,20 +23,19 @@
             <div class="card" style="width: 20rem;">
                 <div class="card-body">
                     <h4 class="card-title text-center">Iniciar sesión</h4>
-                    <form name="login_form" method="POST">
+                    <form name="login_form" method="POST" action="/user/login">
                         <div class="mb-3">
-                            <label for="correo" class="form-label">Correo electronico</label>
-                            <input type="email" class="form-control" id="correo" aria-describedby="emailHelp">
+                            <label for="correo" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="correo" name="correo" aria-describedby="emailHelp">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password">
+                            <input type="password" class="form-control" id="password" name="password">
                         </div>
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-agregar">Iniciar sesión</button>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
