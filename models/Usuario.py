@@ -11,6 +11,11 @@ class Usuario:
 
     def __init__(self, app=None):
         self.app = app
+    
+    def start_session(self, Usuario):
+        session['logged_in'] = True
+        session['user'] = Usuario
+        return jsonify(Usuario), 200
 
     def obtenerUsuarioPorCorreo(self, correo):
         return db.Usuarios.find_one({"correo_electronico": correo})
@@ -21,6 +26,10 @@ class Usuario:
             return usuario.get('rol')
         else:
             return None
+        
+    def obtenerUsuarios(self):
+        usuarios = list(db.Usuarios.find())
+        return usuarios
     
     def crearUsuarioAdmin(self):
         with self.app.app_context():
@@ -42,11 +51,6 @@ class Usuario:
 
             return jsonify({"message": "Usuario administrador creado con éxito."}), 200
 
-    def start_session(self, Usuario):
-        session['logged_in'] = True
-        session['user'] = Usuario
-        return jsonify(Usuario), 200
-
     def registroUsuario(self, form_data):
         usuario = {
             "_id": uuid.uuid4().hex,
@@ -65,17 +69,12 @@ class Usuario:
 
         return jsonify({"error": "Signup failed"}), 400
     
-    
     def cerrarSesion(self):
         session.clear()
         return redirect('/')
     
-    
+    # Validaciones de formulario.
 
-
-    def obtenerUsuarios(self):
-        usuarios = list(db.Usuarios.find())
-        return usuarios
 
 
 
