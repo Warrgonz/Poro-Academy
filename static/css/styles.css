@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Oleo+Script:wght@400;700&display=swap');
+
 .poro-logo {
     width: 100%;
     padding-left: 40px;
@@ -29,7 +31,34 @@
     max-height: 430px; 
 }
 
+ion-icon{
+    margin-right: .4rem;
+    color: #9dc8e4;
+}
 
+.main-sidebar{
+    background-color: #131921;
+}
+
+a{
+    list-style: none;
+}
+
+li a p{
+    color: white;
+}
+
+.brand-text{
+    color: white;
+    font-weight: bold;
+    font-family: "Oleo Script", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.nav-pills .nav-link:not(.active):hover{
+    color: white;
+}
 
 
 /*Estilo para ajustar a un tamanio especifico del card*/
