@@ -39,51 +39,24 @@ def roles_required(roles):
 
 # Login y validaciones
 
-# Formato del correo electrónico
-def validar_correo(correo):
-    if not correo.endswith("@poro.com"):
-        return jsonify({"error": "El dominio ingresado no cumple con las normas."}), 401
-    return None
-
-# Usuario existente
-def validar_usuario(correo):
-    user = usuario.obtenerUsuarioPorCorreo(correo)
-    if not user:
-        return jsonify({"error": "Favor solicite un usuario al administrador local."}), 401
-    return None
-
 @app.route('/user/login', methods=['POST'])
 def login():
     correo = request.form['correo']
     password = request.form['password']
 
-    # Validar si los campos están vacíos
-    if not correo or not password:
-        return jsonify({"error": "Favor llenar los campos solicitados."}), 401
-
-    # Validación del formato del correo electrónico
-    error = validar_correo(correo)
-    if error:
-        return error
-
-    # Validación si el usuario existe en Poro
-    error = validar_usuario(correo)
-    if error:
-        return error
-
     user = usuario.obtenerUsuarioPorCorreo(correo)
 
-    # Validar contraseña incorrecta si el correo existe
-    if not check_password_hash(user['contrasena'], password):
-        return jsonify({"error": "La contraseña es incorrecta."}), 401
-
-    # Autenticación exitosa
-    session['logged_in'] = True
-    session['user'] = user
-    if user['rol'] == 'ADMIN':
-        return redirect(url_for('dashboard')) #Busco a la ruta /dashboard.
+    # Verificar si el usuario existe y la contraseña coincide
+    if user and check_password_hash(user['contrasena'], password):
+        # Autenticación exitosa
+        session['logged_in'] = True
+        session['user'] = user
+        if user['rol'] == 'ADMIN':
+            return redirect(url_for('dashboard'))
+        else:
+            return redirect(url_for('user_dashboard'))
     else:
-        return redirect(url_for('user_dashboard'))
+        return "Credenciales inválidas", 401
 
    
     

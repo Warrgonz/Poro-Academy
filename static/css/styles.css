@@ -4,6 +4,10 @@
     padding-right: 40px;
 }
 
+.error--hidden {
+    display: none;
+}
+
 .table-responsive {
     overflow-x: auto;
 }
