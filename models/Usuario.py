@@ -43,6 +43,7 @@ class Usuario:
             usuario_admin = {
                 "_id": uuid.uuid4().hex,
                 "nombre_completo": "Marvin Solano Campos",
+                "cedula": "1105687219",
                 "correo_electronico": "admin@poro.com",
                 "contrasena": hashed_password,
                 "rol": "ADMIN"
@@ -52,23 +53,22 @@ class Usuario:
             return jsonify({"message": "Usuario administrador creado con éxito."}), 200
 
     def registroUsuario(self, form_data):
+        hashed_password = generate_password_hash(form_data.get('password'))  # Cifra la contraseña
         usuario = {
-            "_id": uuid.uuid4().hex,
-            "nombre_completo": form_data.get('nombre'),
-            "cedula": form_data.get('cedula'),
-            "correo_electronico": form_data.get('correo'),
-            "contrasena": form_data.get('password'),
-            "rol": form_data.get('rol')
-        }
+        "_id": uuid.uuid4().hex,
+        "nombre_completo": form_data.get('nombre'),
+        "cedula": form_data.get('cedula'),
+        "correo_electronico": form_data.get('correo'),
+        "contrasena": hashed_password,  
+        "rol": form_data.get('rol')
+    }
 
-        if db.Usuarios.find_one({"email": usuario['correo_electronico']}):
+        if db.Usuarios.find_one({"correo_electronico": usuario['correo_electronico']}):
             return jsonify({"error": "el correo ya está en uso"}), 400
-        
-        if db.Usuarios.insert_one(usuario):
-           return self.start_session(usuario)
 
-#        return jsonify({"error": "Signup failed"}), 400
-    
+        if db.Usuarios.insert_one(usuario):
+         return self.start_session(usuario)
+
     def cerrarSesion(self):
         session.clear()
         return redirect('/')

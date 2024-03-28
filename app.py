@@ -83,12 +83,16 @@ def login_html():
 @app.route('/user/signup', methods=["GET", "POST"])
 def registro():
     if request.method == "POST":
-        Usuario().registroUsuario(request.form)  
-        return redirect(url_for('registro'))
+        usuario.registroUsuario(request.form)  # Utiliza el método registroUsuario del objeto usuario
+        # Redirigir a una página diferente después de procesar el formulario
+        return redirect(url_for('registroUsuarios'))  # Cambia 'inicio' por la ruta deseada
     else:
-        usuarios = Usuario().obtenerUsuarios()
-        return render_template('registroUsuarios.html', usuarios=usuarios)
-    
+        usuarios = usuario.obtenerUsuarios()
+        usuarios_con_indice = list(enumerate(usuarios, start=1))  # Enumerar los usuarios aquí
+        return render_template('registroUsuarios.html', usuarios=usuarios_con_indice)
+
+
+
 @app.route('/user/signout')
 def salir():
     return Usuario().cerrarSesion()

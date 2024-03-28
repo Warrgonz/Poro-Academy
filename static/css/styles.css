@@ -36,6 +36,11 @@ ion-icon{
     color: #9dc8e4;
 }
 
+.ion-table{
+    color: #f0731f;
+    margin-right: 1rem;
+}
+
 .main-sidebar{
     background-color: #131921;
 }

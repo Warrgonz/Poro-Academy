@@ -1,75 +1,80 @@
 {% extends "base.html" %}
 {% block content %}
 <section>
-  <div class="container pt-5 d-flex justify-content-between">
-    <h1>Usuarios</h1>
-    <button type="button" class="btn btn-agregar" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Agregar usuario
-    </button>
-  </div>
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar usuario</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Usuarios disponibles</h1>
         </div>
-        <div class="modal-body">
-          <form name="signup_form" method="POST">
-            <div class="mb-3">
-              <label for="nombre" class="form-label">Nombre completo</label>
-              <input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="emailHelp">
+        <div class="col-sm-6 d-flex justify-content-end">
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+            Launch Default Modal
+          </button>
+          <div class="modal fade" id="modal-default">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Default Modal</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>One fine body&hellip;</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+              <!-- /.modal-content -->
             </div>
-            <div class="mb-3">
-              <label for="cedula" class="form-label">Cédula</label>
-              <input type="number" min="0" class="form-control" id="cedula" name="cedula" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3">
-              <label for="correo" class="form-label">Correo electronico</label>
-              <input type="email" min="0" class="form-control" id="correo" name="correo" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Contraseña</label>
-              <input type="password" min="0" class="form-control" id="password" name="password"
-                aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3"> <!--Sugerencia: Crear una CRUD de roles, y crear el drop down menu de roles-->
-              <label for="rol" class="form-label">Rol</label>
-              <input type="text" min="0" class="form-control" id="rol" name="rol" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3"> <!--Sugerencia: Manejo de errores-->
-              <p class="error error--hidden"></p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-success">Guardar</button>
-            </div>
-          </form>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- /.modal -->
         </div>
-      </div>
-    </div>
-  </div>
+      </div><!-- /.row -->
+      <!-- Modal Agregar Usuario-->
+
+
+    </div><!-- /.container-fluid -->
+
+
+
+
+
 </section>
+
 <section class="container table-responsive">
   <table class="table table-striped">
     <thead class="thead-dark">
       <tr>
+        <th scope="col">ID</th> <!-- Nueva columna para el ID -->
         <th scope="col">Nombre</th>
         <th scope="col">Cédula</th>
         <th scope="col">Correo Electrónico</th>
         <th scope="col">Rol</th>
+        <th scope="col">Acciones</th> <!-- Nueva columna para las acciones -->
       </tr>
     </thead>
     <tbody>
-      {% for usuario in usuarios %}
+      {% for indice, usuario in usuarios %}
       <tr>
+        <td>{{ indice }}</td> <!-- Muestra el índice del usuario -->
         <td>{{ usuario.nombre_completo }}</td>
         <td>{{ usuario.cedula }}</td>
         <td>{{ usuario.correo_electronico }}</td>
         <td>{{ usuario.rol }}</td>
+        <td>
+          <!-- Agrega los íconos de editar y eliminar -->
+          <ion-icon name="brush" class="ion-table"></ion-icon>
+          <ion-icon name="trash" class="ion-table"></ion-icon>
+        </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </section>
+
 {% endblock %}
