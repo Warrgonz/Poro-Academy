@@ -2,6 +2,7 @@ from flask import request, jsonify, session, redirect, url_for, render_template
 from db.conexion import dbConnection
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash 
+from functools import wraps
 import uuid
 
 db = dbConnection()
@@ -11,6 +12,16 @@ class Usuario:
     def __init__(self, app=None):
         self.app = app
 
+    def obtenerUsuarioPorCorreo(self, correo):
+        return db.Usuarios.find_one({"correo_electronico": correo})
+    
+    def obtenerRolesPorCorreo(self, correo):
+        usuario = db.Usuarios.find_one({"correo_electronico": correo})
+        if usuario:
+            return usuario.get('rol')
+        else:
+            return None
+    
     def crearUsuarioAdmin(self):
         with self.app.app_context():
             # Tenemos admin?
@@ -22,10 +33,10 @@ class Usuario:
             hashed_password = generate_password_hash("12345")
             usuario_admin = {
                 "_id": uuid.uuid4().hex,
-                "nombre_completo": "Administrador",
+                "nombre_completo": "Marvin Solano Campos",
                 "correo_electronico": "admin@poro.com",
                 "contrasena": hashed_password,
-                "rol": "administrador"
+                "rol": "ADMIN"
             }
             db.Usuarios.insert_one(usuario_admin)
 
@@ -54,26 +65,19 @@ class Usuario:
 
         return jsonify({"error": "Signup failed"}), 400
     
+    
     def cerrarSesion(self):
         session.clear()
         return redirect('/')
+    
+    
 
 
     def obtenerUsuarios(self):
         usuarios = list(db.Usuarios.find())
         return usuarios
 
-    def iniciarSesion(self):
-        try:
-            user = db.Usuarios.find_one({
-                "correo_electronico": request.form.get('email')
-            }) 
-            if user and check_password_hash(user['contrasena'], request.form.get('password')):
-                return self.start_session(user)
 
-            return jsonify({"error": "Credenciales inválidas"}), 401
-        except Exception as e:
-            return jsonify({"error": f"Error al iniciar sesión: {str(e)}"}), 500
 
 
 

@@ -19,7 +19,7 @@ $("form[name=login_form]").submit(function(e){
         data: data,
         dataType: "json",
         success: function(resp){
-            window.location.href = "/dashboard/";
+            window.location.href = "/";
         },
         error: function(xhr, status, error){
             if (xhr.status === 401) {
@@ -32,6 +32,7 @@ $("form[name=login_form]").submit(function(e){
 
     e.preventDefault();
 });
+
 
 
 // Sign up

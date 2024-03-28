@@ -6,6 +6,7 @@ from models.cursos import Cursos
 from models.calificaciones import Calificaciones
 from models.Usuario import Usuario
 from functools import wraps
+from werkzeug.security import check_password_hash
 
 app = Flask(__name__)
 app.secret_key = b'g\x13\x94z\xec\xfc\xf5g\xf9\xc9\x05\xf2;9F\x9b'
@@ -16,13 +17,49 @@ usuario = Usuario(app)
 
 usuario.crearUsuarioAdmin()
 
-def login_required(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return f(*args, **kwargs)
+# Roles
+
+def roles_required(roles):
+    def decorator(view_func):
+        @wraps(view_func)
+        def wrapper(*args, **kwargs):
+            if 'user' not in session:
+                return redirect(url_for('login'))
+
+            correo_usuario = session['user']['correo_electronico']
+
+            roles_usuario = usuario.obtenerRolesPorCorreo(correo_usuario)
+
+            if roles_usuario not in roles:
+                return redirect(url_for('login'))  # Sin rol adecuado.
+
+            return view_func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+# Login
+
+@app.route('/user/login', methods=['POST'])
+def login():
+    correo = request.form['correo']
+    password = request.form['password']
+    user = usuario.obtenerUsuarioPorCorreo(correo)
+    if user and check_password_hash(user['contrasena'], password):
+        session['logged_in'] = True
+        session['user'] = user
+        if user['rol'] == 'ADMIN':
+            return redirect(url_for('dashboard')) #Busco a la ruta /dashboard.
         else:
-            return redirect('/') #Especificar aqui donde lo va mandar si no esta loggeado.
+            error = print("Otro rol")
+            return error
+            # return redirect(url_for('user_dashboard'))
+    else:
+        return jsonify({"error": "Credenciales inválidas"}), 401
+    
+@app.route('/dashboard')
+@roles_required(['ADMIN']) # Asi se especifica a qué lugares va poder acceder cada rol.
+def dashboard():
+    return render_template('dashboard.html')
 
 #metodo para enrutar al index
 @app.route('/')
@@ -34,11 +71,6 @@ def home():
 @app.route('/login.html')
 def login_html():
     return render_template('login.html')
-
-@app.route('/user/login', methods=["POST"])
-def login():
-    return Usuario().iniciarSesion()
-
 
 @app.route('/user/signup', methods=["GET", "POST"])
 def registro():

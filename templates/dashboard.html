@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        <strong>ID:</strong> {{ session['user']['_id'] }} <br>
+        <strong>Nombre:</strong> {{ session['user']['nombre_completo'] }} <br>
+        <strong>Rol:</strong> {{ session['user']['rol'] }} <br>
+        <strong>Correo:</strong> {{ session['user']['correo_electronico'] }} <br>
+    </p>    
+</body>
+</html>
