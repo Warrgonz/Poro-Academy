@@ -24,6 +24,16 @@
     color: white;
 }
 
+.img-container {
+    width: 1000px; /* Ancho deseado */
+    max-width: 100%; /* Ajuste responsive */
+    height: 300px; /* Alto deseado */
+    background-image: url('/static/images/img-dashboard.jpg');
+    background-size: cover; /* Ajusta la imagen para cubrir todo el contenedor */
+    background-position: center; /* Centra la imagen */
+}
+
+
 /*Estilo para ajustar a un tamanio especifico del card*/
 .custom-card {
     min-height: 10rem;

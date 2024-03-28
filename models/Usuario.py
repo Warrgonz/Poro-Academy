@@ -49,7 +49,7 @@ class Usuario:
             }
             db.Usuarios.insert_one(usuario_admin)
 
-#            return jsonify({"message": "Usuario administrador creado con éxito."}), 200
+            return jsonify({"message": "Usuario administrador creado con éxito."}), 200
 
     def registroUsuario(self, form_data):
         usuario = {
@@ -61,8 +61,8 @@ class Usuario:
             "rol": form_data.get('rol')
         }
 
-#        if db.Usuarios.find_one({"email": usuario['correo_electronico']}):
-#            return jsonify({"error": "el correo ya está en uso"}), 400
+        if db.Usuarios.find_one({"email": usuario['correo_electronico']}):
+            return jsonify({"error": "el correo ya está en uso"}), 400
         
         if db.Usuarios.insert_one(usuario):
            return self.start_session(usuario)

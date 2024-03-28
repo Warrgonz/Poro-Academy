@@ -48,22 +48,26 @@ def login():
 
     # Verificar si el usuario existe y la contraseña coincide
     if user and check_password_hash(user['contrasena'], password):
-        # Autenticación exitosa
         session['logged_in'] = True
         session['user'] = user
         if user['rol'] == 'ADMIN':
             return redirect(url_for('dashboard'))
+        elif user['rol'] in ['ESTUDIANTE', 'PROFESOR']:
+            return redirect(url_for('userDashboard'))
         else:
-            return redirect(url_for('user_dashboard'))
+            return jsonify({"error": "credenciales invalidas"}), 400
     else:
-        return "Credenciales inválidas", 401
+        return jsonify({"error": "credenciales invalidas"}), 400
 
-   
-    
 @app.route('/dashboard')
 @roles_required(['ADMIN']) # Asi se especifica a qué lugares va poder acceder cada rol.
 def dashboard():
     return render_template('dashboard.html')
+
+@app.route('/userDashboard')
+@roles_required(['ESTUDIANTE', 'PROFESOR'])
+def user_dashboard():
+    return render_template('userDashboard.html')
 
 #metodo para enrutar al index
 @app.route('/')

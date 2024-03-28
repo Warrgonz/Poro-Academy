@@ -40,12 +40,22 @@
                 </a>
             </div>
         </nav>
-        <div class="main p-3">
-            <div>
-                {% block content %}{% endblock %}
+        <div class="d-flex flex-column">
+            <div style="width: 100%;">
+                <div class="header-layout">
+                    <strong>Nombre:</strong> {{ session['user']['nombre_completo'] }} <br>
+                    <strong>Rol:</strong> {{ session['user']['rol'] }} <br>
+                    <strong>Correo:</strong> {{ session['user']['correo_electronico'] }} <br>
+                </div>
+            </div>
+            <div class="main p-3">
+                <div>
+                    {% block content %}{% endblock %}
+                </div>
             </div>
         </div>
     </header>
+
     <!-- jQuery y Bootstrap JS -->
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

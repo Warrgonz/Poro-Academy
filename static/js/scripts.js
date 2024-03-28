@@ -43,8 +43,6 @@ $("form[name=login_form]").submit(function (e) {
     });
 
     function validarCorreo(correo) {
-        // Implementa la lógica de validación del formato del correo electrónico aquí
-        // Por ejemplo, puedes usar una expresión regular
         var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(correo);
     }
