@@ -54,27 +54,54 @@ class Usuario:
 
     def registroUsuario(self, form_data):
         hashed_password = generate_password_hash(form_data.get('password'))  # Cifra la contraseña
+    
+        # Obtener el valor seleccionado del campo 'rol'
+        rol = form_data.get('rol')
+
+        # Verificar si el rol es uno de los valores permitidos
+        roles_permitidos = ['ADMIN', 'PROFESOR', 'ESTUDIANTE']
+        if rol not in roles_permitidos:
+            return jsonify({"error": "Rol no válido"}), 400
+
         usuario = {
         "_id": uuid.uuid4().hex,
         "nombre_completo": form_data.get('nombre'),
         "cedula": form_data.get('cedula'),
         "correo_electronico": form_data.get('correo'),
-        "contrasena": hashed_password,  
-        "rol": form_data.get('rol')
+        "contrasena": hashed_password,
+        "rol": rol  # Utiliza el valor seleccionado del campo 'rol'
     }
 
         if db.Usuarios.find_one({"correo_electronico": usuario['correo_electronico']}):
-            return jsonify({"error": "el correo ya está en uso"}), 400
+            return jsonify({"error": "El correo ya está en uso"}), 400
 
         if db.Usuarios.insert_one(usuario):
-         return self.start_session(usuario)
+            return self.start_session(usuario)
+
+        def editarUsuario(self, usuario_data):
+            # Obtener el ID del usuario a editar
+            usuario_id = usuario_data.get('_id')
+            # Consultar el usuario en la base de datos
+            usuario_existente = db.Usuarios.find_one({"_id": usuario_id})
+
+            if not usuario_existente:
+                return jsonify({"error": "Usuario no encontrado"}), 404
+
+            # Actualizar los campos del usuario con los nuevos datos del formulario
+            usuario_existente['nombre_completo'] = usuario_data.get('nombre')
+            usuario_existente['cedula'] = usuario_data.get('cedula')
+            usuario_existente['correo_electronico'] = usuario_data.get('correo')
+            usuario_existente['rol'] = usuario_data.get('rol')
+
+            # Actualizar el usuario en la base de datos
+            db.Usuarios.update_one({"_id": usuario_id}, {"$set": usuario_existente})
+
+            return jsonify({"message": "Usuario actualizado correctamente"}), 200
 
     def cerrarSesion(self):
         session.clear()
         return redirect('/')
     
-    # Validaciones de formulario.
-
 
 
 

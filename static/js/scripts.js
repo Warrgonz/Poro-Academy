@@ -74,3 +74,60 @@ $("form[name=signup_form]").submit(function (e) {
 
     e.preventDefault();
 })
+
+function validateForm() {
+    var nombre = document.getElementById("nombre").value;
+    var cedula = document.getElementById("cedula").value;
+    // Agregar más campos aquí si es necesario
+    
+    var isValid = true;
+
+    // Verificar si el campo de nombre está vacío
+    if (nombre.trim() === "") {
+        document.getElementById("nombre").classList.add("invalid-input");
+        isValid = false;
+    } else {
+        document.getElementById("nombre").classList.remove("invalid-input");
+    }
+
+    // Verificar si el campo de cédula está vacío
+    if (cedula.trim() === "") {
+        document.getElementById("cedula").classList.add("invalid-input");
+        isValid = false;
+    } else {
+        document.getElementById("cedula").classList.remove("invalid-input");
+    }
+
+    // Agregar más verificaciones para otros campos si es necesario
+
+    return isValid;
+}
+
+
+// Editar usuario.
+
+$("#editar_form").submit(function (e) {
+
+    var $form = $(this);
+    var $error = $form.find(".error-editar");
+    var data = $form.serialize();
+
+    $.ajax({
+        url: "/editar_usuario",  // Ruta de la aplicación Flask para editar usuario
+        type: "POST",
+        data: data,
+        dataType: "json",
+        success: function (resp) {
+            // Manejar la respuesta del servidor (opcional)
+            console.log(resp);
+            // Opcional: recargar la página o redireccionar a otra después de editar el usuario
+            // window.location.href = "ruta_de_redireccion_despues_de_editar";
+        },
+        error: function (resp) {
+            // Manejar errores (opcional)
+            $error.text(resp.responseJSON.error).removeClass("error--hidden");
+        }
+    });
+
+    e.preventDefault();
+});

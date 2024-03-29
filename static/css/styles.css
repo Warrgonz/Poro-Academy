@@ -45,6 +45,10 @@ ion-icon{
     background-color: #131921;
 }
 
+.invalid-input {
+    border-color: red !important;
+}
+
 a{
     list-style: none;
 }
