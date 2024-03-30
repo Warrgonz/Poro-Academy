@@ -1,0 +1,119 @@
+{% extends "publicView.html" %}
+
+{% block content %}
+<section id="nosotros-view" class="container-fluid py-5 d-flex justify-content-center align-items-center text-center">
+    <div class="container">
+        <h2 class="head-nosotros">Nosotros</h2>
+    </div>
+</section>
+
+<section class="container py-5 sectionTabs">
+    <div class="row py-5">
+        <ul class="nav nav-tabs d-flex justify-content-center">
+            <li class="col-lg-3 pb-4">
+                <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#historia">
+                    <h4>Historia</h4>
+                </a>
+            </li>
+
+            <li class="col-lg-3 pb-4">
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#beneficios">
+                    <h4>Beneficios</h4>
+                </a>
+            </li>
+
+            <li class="col-lg-3 pb-4">
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#encargados">
+                    <h4>Encargados</h4>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        <div class="tab-pane fade active show" id="historia">
+            <div class="row">
+                <div class="col-lg-5">
+                    <img src="/static/images/Poro.jpg" alt="Poro" class="img-fluid">
+                </div>
+
+                <div class="col-lg-7 text-center pt-5">
+                    <h4>Historia</h4>
+                    <img src="/static/images/line.svg" alt="raya" class="img-fluid">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt iste pariatur quis praesentium sequi nulla aliquid, possimus consequuntur mollitia, ipsum nobis consectetur reiciendis commodi eius voluptate exercitationem. Distinctio, accusantium totam.</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="tab-pane fade" id="beneficios">
+            <div class="row text-center">
+                <div class="col-lg-7 col-md-12 pt-5">
+                    <h4>Historia</h4>
+                    <img src="/static/images/line.svg" alt="raya" class="img-fluid">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt iste pariatur quis praesentium sequi nulla aliquid, possimus consequuntur mollitia, ipsum nobis consectetur reiciendis commodi eius voluptate exercitationem. Distinctio, accusantium totam.</p>
+                </div>
+                <div class="col-lg-7 col-md-12">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ea hic officiis? Dolore necessitatibus ea maiores dignissimos quod in eaque omnis doloribus? Consequuntur corporis veniam sed perspiciatis modi laborum soluta.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="encargados">
+            <div class="row text-center">
+                <div class="col-lg-4 col-md-6 pb-4">
+                    <div class="card">
+                        <img src="/static/images/fundador.jpg" class="card-img-top img-fluid" alt="Foto del fundador de café 1820">
+                        <div class="card-body">
+                            <h5 class="card-title py-3">Leonel Jiménez</h5>
+                            <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing
+                                elit. Obcaecati alias aperiam, consequatur officiis sed placeat natus
+                                veniam cumque commodi labore fuga eaque. Excepturi provident, asperiores
+                                quas minus enim quae ea!</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item fs-5 fw-semibold">Fundador</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4 col-md-6 pb-4">
+                    <div class="card">
+                        <img src="/static/images/gerente.jpg" class="card-img-top img-fluid" alt="Foto del gerente café 1820">
+                        <div class="card-body">
+                            <h5 class="card-title py-3">David Zuñiga</h5>
+                            <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing
+                                elit. Quis reiciendis ducimus quisquam officia quibusdam, eaque unde
+                                corrupti aspernatur expedita quas reprehenderit eligendi odit neque
+                                tempora eveniet rem quam at. Itaque.</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item fs-5 fw-semibold">Gerente</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4 col-md-6 pb-4">
+                    <div class="card">
+                        <img src="/static/images/marketing.jpg" class="card-img-top img-fluid"
+                            alt="Foto de la encargada de marketing café 1820">
+                        <div class="card-body">
+                            <h5 class="card-title py-3">María Esquivel</h5>
+                            <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing
+                                elit. Quis reiciendis ducimus quisquam officia quibusdam, eaque unde
+                                corrupti aspernatur expedita quas reprehenderit eligendi odit neque
+                                tempora eveniet rem quam at. Itaque.</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item fs-5 fw-semibold">Marketing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

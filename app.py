@@ -69,16 +69,30 @@ def dashboard():
 def user_dashboard():
     return render_template('userDashboard.html')
 
+# Rutas publicas
+
 #metodo para enrutar al index
 @app.route('/')
 def home(): 
      return render_template('index.html')
 
-# Usuarios
+@app.route('/nosotros')
+def nosotros(): 
+     return render_template('nosotros.html')
 
-@app.route('/login.html')
+@app.route('/servicios')
+def servicios(): 
+     return render_template('servicios.html')
+
+@app.route('/contacto')
+def contacto(): 
+     return render_template('contacto.html')
+
+@app.route('/login')
 def login_html():
     return render_template('login.html')
+
+# Usuarios
 
 @app.route('/user/signup', methods=["GET", "POST"])
 def registro():
