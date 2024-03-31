@@ -124,6 +124,12 @@ def procesar_formulario():
         else:
             print("Error al procesar el formulario. Por favor, inténtalo de nuevo.")
             return redirect(url_for('contacto'))
+        
+# Bandeja
+        
+@app.route('/bandeja')
+def login_html():
+    return render_template('bandeja.html')
 
 #Metodo para enrutar
 @app.route('/eventosUser')

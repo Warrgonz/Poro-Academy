@@ -1,9 +1,4 @@
-
-
-
-
-/*//////////////////////////////////////////////////////////////////
-[ FONT ]*/
+/*Aqui estoy usando font family popins como referencia, pueden cambiarlo*/
 
 @font-face {
   font-family: Poppins-Regular;
@@ -494,7 +489,7 @@ input.input100 {
 }
 
 .login100-form-btn:hover {
-  background: #333333;
+  background: #9dc8e4;
 }
 
 
