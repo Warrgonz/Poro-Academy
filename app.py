@@ -7,6 +7,7 @@ from models.calificaciones import Calificaciones
 from models.Usuario import Usuario
 from functools import wraps
 from werkzeug.security import check_password_hash
+from models.Contacto import Contacto
 
 app = Flask(__name__)
 app.secret_key = b'g\x13\x94z\xec\xfc\xf5g\xf9\xc9\x05\xf2;9F\x9b'
@@ -80,10 +81,6 @@ def home():
 def nosotros(): 
      return render_template('nosotros.html')
 
-@app.route('/servicios')
-def servicios(): 
-     return render_template('servicios.html')
-
 @app.route('/contacto')
 def contacto(): 
      return render_template('contacto.html')
@@ -110,7 +107,23 @@ def registro():
 def salir():
     return Usuario().cerrarSesion()
 
+# Contacto
 
+@app.route('/procesar_formulario', methods=['POST'])
+def procesar_formulario():
+    if request.method == 'POST':
+        nombre = request.form['fullname']
+        email = request.form['email']
+        telefono = request.form.get('phone', '')  
+        mensaje = request.form['message']
+        
+        if Contacto.insertar_contacto(nombre, email, telefono, mensaje):
+            print("¡Formulario enviado correctamente!")
+            return redirect(url_for('contacto'))
+             
+        else:
+            print("Error al procesar el formulario. Por favor, inténtalo de nuevo.")
+            return redirect(url_for('contacto'))
 
 #Metodo para enrutar
 @app.route('/eventosUser')
