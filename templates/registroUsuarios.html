@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Usuarios disponibles</h1>
+        </div>
+        <div class="col-sm-6 d-flex justify-content-end">
+          <button type="button" class="btn btn-agregar" data-toggle="modal" data-target="#modal-default">
+            Nuevo usuario
+          </button>
+          <div class="modal" id="modal-default">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title fs-5">Agregar usuario</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form name="signup_form" method="POST" onsubmit="return validateForm()">
+                    <div class="mb-3">
+                      <label for="nombre" class="form-label">Nombre completo</label>
+                      <input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                      <label for="cedula" class="form-label">Cédula</label>
+                      <input type="number" min="0" class="form-control" id="cedula" name="cedula"
+                        aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                      <label for="correo" class="form-label">Correo electronico</label>
+                      <input type="email" min="0" class="form-control" id="correo" name="correo"
+                        aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                      <label for="password" class="form-label">Contraseña</label>
+                      <input type="password" min="0" class="form-control" id="password" name="password"
+                        aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                      <label for="rol" class="form-label">Rol</label>
+                      <select class="form-select" name="rol" aria-label="Default select example">
+                        <option value="" disabled selected>Seleccione un rol</option>
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="PROFESOR">PROFESOR</option>
+                        <option value="ESTUDIANTE">ESTUDIANTE</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <p class="error error--hidden"></p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                      <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.modal -->
+        </div>
+      </div><!-- /.row -->
+      <!-- Modal Agregar Usuario-->
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="container table-responsive">
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">ID</th> <!-- Nueva columna para el ID -->
+        <th scope="col">Nombre</th>
+        <th scope="col">Cédula</th>
+        <th scope="col">Correo Electrónico</th>
+        <th scope="col">Rol</th>
+        <th scope="col">Acciones</th> <!-- Nueva columna para las acciones -->
+      </tr>
+    </thead>
+    <tbody>
+      {% for indice, usuario in usuarios %}
+      <tr>
+        <td>{{ indice }}</td> <!-- Muestra el índice del usuario -->
+        <td>{{ usuario.nombre_completo }}</td>
+        <td>{{ usuario.cedula }}</td>
+        <td>{{ usuario.correo_electronico }}</td>
+        <td>{{ usuario.rol }}</td>
+        <td>
+          <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modal-editar-usuario">
+            Editar
+        </button>
+        
+        <div class="modal" id="modal-editar-usuario">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title fs-5">Editar usuario</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editar_form" method="POST" onsubmit="return validateEditForm()">
+                            <input type="hidden" id="usuario_id_editar" name="_id">
+                            <div class="mb-3">
+                                <label for="nombre_editar" class="form-label">Nombre completo</label>
+                                <input type="text" class="form-control" id="nombre_editar" name="nombre" aria-describedby="emailHelp">
+                            </div>
+                            <div class="mb-3">
+                                <label for="cedula_editar" class="form-label">Cédula</label>
+                                <input type="number" min="0" class="form-control" id="cedula_editar" name="cedula" aria-describedby="emailHelp">
+                            </div>
+                            <div class="mb-3">
+                                <label for="correo_editar" class="form-label">Correo electrónico</label>
+                                <input type="email" class="form-control" id="correo_editar" name="correo" aria-describedby="emailHelp">
+                            </div>
+                            <div class="mb-3">
+                                <label for="rol_editar" class="form-label">Rol</label>
+                                <select class="form-select" name="rol" id="rol_editar" aria-label="Default select example">
+                                    <option value="" disabled selected>Seleccione un rol</option>
+                                    <option value="ADMIN">ADMIN</option>
+                                    <option value="PROFESOR">PROFESOR</option>
+                                    <option value="ESTUDIANTE">ESTUDIANTE</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <p class="error-editar error--hidden"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-success">Guardar cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+          <ion-icon name="trash" class="ion-table"></ion-icon>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+{% endblock %}

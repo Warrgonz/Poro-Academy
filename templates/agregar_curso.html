@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Agregar Curso</title>
+    <style>
+        .curso-container {
+            border: 1px solid #ccc;
+            border-radius: 10px; 
+            padding: 20px; 
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .curso-container img {
+            max-width: 250px;
+            height: auto;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        .curso-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .curso-info h3 {
+            font-size: 1.5rem; 
+            margin: 0;
+        }
+        .boton-centrado {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark p-3" style="background-color:#9DC8E4;" id="headerNav">
+            <div class="container-fluid">
+              <a class="navbar-brand d-lg-none" href="#">
+                <img src="{{ url_for('static', filename='images/LogoAcademiaPoro.jpg') }}" height="40" />
+              </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+           
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav mx-auto">
+                  <li class="nav-item">
+                    <a class="nav-link mx-2 active" aria-current="page" href="#">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('cursos') }}">Cursos</a>
+                  </li>
+                  <li class="nav-item d-none d-lg-block">
+                    <a class="nav-link" href="{{ url_for('home') }}">
+                        <img src="{{ url_for('static', filename='images/LogoAcademiaPoro.jpg') }}" height="40"  />     
+                    </a>      
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('eventos') }}">Eventos</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('calificaciones') }}">Calificaciones</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
+                      Company
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <li><a class="dropdown-item" href="#">Blog</a></li>
+                      <li><a class="dropdown-item" href="#">About Us</a></li>
+                      <li><a class="dropdown-item" href="#">Contact us</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+    </header>
+
+    <div class="container mt-3">
+        <div class="titulo-con-boton">
+            <h1 class="text-left">Agregar Nuevo Curso</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <form action="{{ url_for('agregar_curso') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre del Curso</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre del curso" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="profesor" class="form-label">Nombre del Profesor</label>
+                        <input type="text" class="form-control" id="profesor" name="profesor" placeholder="Ingrese el nombre del profesor" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="Ingrese una breve descripción del curso" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar Curso</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-hzboRo/EnZzAOEoyyDbn5yfcjgFfLXn4Z0eWUusxQV+9ZcMkxbIKp1s9l9iuM2Qx" crossorigin="anonymous"></script>
+</body>
+</html>
