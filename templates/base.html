@@ -125,10 +125,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <!--Anuncios-->
             <li class="nav-item">
-              <a href="#" class="nav-link"> <!--Inv como settear activo dependiendo de la vista-->
+              <a href="{{ url_for('eventos') }}" class="nav-link"> <!--Inv como settear activo dependiendo de la vista-->
                 <ion-icon name="newspaper-sharp"></ion-icon>
                 <p>
-                  Anuncios
+                  Eventos
+                  <!--  <span class="right badge badge-danger">New</span> -->
+                </p>
+              </a>
+            </li>
+
+            <!-- Secciones-->
+            <li class="nav-item">
+              <a href="{{ url_for('secciones') }}" class="nav-link"> <!--Inv como settear activo dependiendo de la vista-->
+                <ion-icon name="people-sharp"></ion-icon>
+                <p>
+                  Secciones
                   <!--  <span class="right badge badge-danger">New</span> -->
                 </p>
               </a>
