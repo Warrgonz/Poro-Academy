@@ -38,8 +38,8 @@ class Contacto:
                 'email': email,
                 'telefono': telefono,
                 'mensaje': mensaje,
-                'estado': 'asignado'
-            })
+                'estado': 'asignado',  
+        })
             return True
         else:
             return False
