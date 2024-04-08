@@ -117,19 +117,57 @@ def procesar_formulario():
         telefono = request.form.get('phone', '')  
         mensaje = request.form['message']
         
-        if Contacto.insertar_contacto(nombre, email, telefono, mensaje):
+        contacto = Contacto()  # Crear una instancia de la clase Contacto
+        if contacto.insertar_contacto(nombre, email, telefono, mensaje):
             print("¡Formulario enviado correctamente!")
             return redirect(url_for('contacto'))
-             
         else:
             print("Error al procesar el formulario. Por favor, inténtalo de nuevo.")
             return redirect(url_for('contacto'))
+
         
 # Bandeja
         
 @app.route('/bandeja')
 def bandeja():
-    return render_template('bandeja.html')
+    solicitudes = Contacto.obtener_todas_solicitudes(db)
+    return render_template('bandeja.html', solicitudes=solicitudes)
+
+@app.route('/ver_solicitud/<id_solicitud>')
+def ver_solicitud(id_solicitud):
+    # Solicitud por su ID
+    solicitud = Contacto.obtener_solicitud_por_id(db, id_solicitud)
+    return render_template('leer_contacto.html', solicitud=solicitud)
+
+#@app.route("/resolver_solicitud", methods=["POST"])
+#def resolver_solicitud():
+#    id_solicitud = request.json["id_solicitud"]
+#    Contacto.resolver_solicitud(id_solicitud, db) 
+#    return "OK", 200
+
+#@app.route("/marcar_spam", methods=["POST"])
+#def marcar_spam():
+#    id_solicitud = request.json["id_solicitud"]
+#    Contacto.marcar_spam(id_solicitud, db)
+#    return "OK", 200
+
+@app.route("/actualizar_solicitud", methods=["POST"])
+def actualizar_solicitud():
+    id_solicitud = request.json["id_solicitud"]
+    accion = request.json["accion"]
+
+    if accion == "resolver":
+        Contacto.resolver_solicitud(id_solicitud, db)
+    elif accion == "marcar_spam":
+        Contacto.marcar_spam(id_solicitud, db)
+    elif accion == "eliminar":
+        Contacto.eliminar_solicitud(id_solicitud, db)
+        pass
+    else:
+        return "Acción no válida", 400
+
+    return "OK", 200
+
 
 #Metodo para enrutar
 @app.route('/eventosUser')

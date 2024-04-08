@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Folders</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item active">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-inbox"></i> Inbox
+                                <span class="badge bg-primary float-right">12</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-envelope"></i> Sent
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-file-alt"></i> Drafts
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-filter"></i> Junk
+                                <span class="badge bg-warning float-right">65</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-trash-alt"></i> Trash
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <div class=" col-sm-12 col-md-12 col-lg-9">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title"><strong>{{ solicitud.id_solicitud }}</strong></h3>
+                    <div class="card-tools">
+                        <button type="submit" id="resolverBandeja" class="btn btn-success btn-md"
+                            onclick="actualizarEstado('{{ solicitud.id_solicitud }}', 'resolver')">Resolver</button>
+                        <button type="button" class="btn btn-warning btn-md"
+                            onclick="actualizarEstado('{{ solicitud.id_solicitud }}', 'marcar_spam')">Spam</button>
+                        <button type="submit" class="btn btn-danger btn-md"
+                            onclick="actualizarEstado('{{ solicitud.id_solicitud }}', 'eliminar')">Eliminar</button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                    <div class="mailbox-read-info">
+                        <h5>{{ solicitud.nombre }}</h5>
+                        <h6>Contacto: {{ solicitud.telefono }}</h6>
+                    </div>
+                    <!-- /.mailbox-controls -->
+                    <div class="mailbox-read-message">
+                        <p>{{ solicitud.mensaje }}</p>
+                    </div>
+                    <!-- /.mailbox-read-message -->
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</section>
+
+{% endblock %}
