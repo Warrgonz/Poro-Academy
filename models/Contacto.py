@@ -37,11 +37,34 @@ class Contacto:
                 'nombre': nombre,
                 'email': email,
                 'telefono': telefono,
-                'mensaje': mensaje
-            })
+                'mensaje': mensaje,
+                'estado': 'asignado',  
+        })
             return True
         else:
             return False
         
-   
+    @staticmethod
+    def obtener_todas_solicitudes(db):
+        solicitudes = db.Contacto.find()
+        return solicitudes
 
+    @staticmethod
+    def obtener_solicitud_por_id(db, id_solicitud):
+        solicitud = db.Contacto.find_one({'id_solicitud': id_solicitud})
+        return solicitud
+
+    @staticmethod
+    def resolver_solicitud(id_solicitud, db):
+        id_solicitud = str(id_solicitud)
+        db.Contacto.update_one({'id_solicitud': id_solicitud}, {'$set': {'estado': 'resuelto'}})
+
+    @staticmethod
+    def marcar_spam(id_solicitud, db):
+        id_solicitud = str(id_solicitud)
+        db.Contacto.update_one({'id_solicitud': id_solicitud}, {'$set': {'estado': 'spam'}})
+    
+    @staticmethod
+    def eliminar_solicitud(id_solicitud, db):
+        id_solicitud = str(id_solicitud)
+        db.Contacto.update_one({'id_solicitud': id_solicitud}, {'$set': {'estado': 'eliminado'}})

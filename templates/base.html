@@ -77,7 +77,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <aside class="main-sidebar elevation-4">
       <!-- Brand Logo --> <!--REFERENCIA AL DASHBOARD-->
       <a href="index3.html" class="brand-link">
-        <img src="{{ url_for('static', filename='favicon.png') }}" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="{{ url_for('static', filename='favicon.png') }}" alt="Logo" class="brand-image img-circle elevation-3"
+          style="opacity: .8">
         <span class="brand-text font-weight-light">Academia Poro</span>
       </a>
 
@@ -147,7 +148,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <!--Bandeja-->
             <li class="nav-item">
-              <a href="#" class="nav-link"> <!--Inv como settear activo dependiendo de la vista-->
+              <a href="/bandeja" class="nav-link"> <!--Inv como settear activo dependiendo de la vista-->
                 <ion-icon name="file-tray-sharp"></ion-icon>
                 <p>
                   Bandeja
@@ -219,9 +220,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <script src="/static/dist/js/adminlte.min.js"></script>
 
-  
+
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <script src="/static/js/bandeja.js"></script>
 </body>
 
 </html>
