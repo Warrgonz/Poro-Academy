@@ -71,20 +71,20 @@
                         <table class="table table-hover table-striped">
                             <tbody>
                                 {% for solicitud in solicitudes %}
-                                {% if solicitud.estado == 'asignado' %}
-                                    <tr>
-                                        <td>
-                                            <div class="icheck-primary">
-                                                <input type="checkbox" value="" id="check1">
-                                                <label for="check1"></label>
-                                            </div>
-                                        </td>
-                                        <td class="mailbox-name"><a href="{{ url_for('ver_solicitud', id_solicitud=solicitud.id_solicitud) }}">{{ solicitud.nombre }}</a></td>
-                                        <td class="mailbox-subject"><b>{{ solicitud.id_solicitud }}</b></td>
-                                        <td>{{ solicitud.email }}</td>
-                                    </tr>
-                                {% endif %}
-                            {% endfor %}                            
+                                    {% if solicitud.estado == 'asignado' %}
+                                        <tr>
+                                            <td>
+                                                <div class="icheck-primary">
+                                                    <input type="checkbox" value="" id="check1">
+                                                    <label for="check1"></label>
+                                                </div>
+                                            </td>
+                                            <td class="mailbox-name"><a href="{{ url_for('ver_solicitud', id_solicitud=solicitud.id_solicitud) }}">{{ solicitud.nombre }}</a></td>
+                                            <td class="mailbox-subject"><b>{{ solicitud.id_solicitud }}</b></td>
+                                            <td>{{ solicitud.email }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
                             </tbody>
                         </table>
                         <!-- /.table -->
@@ -96,3 +96,5 @@
         </div>
     </div>
 </section>
+
+{% endblock %}
