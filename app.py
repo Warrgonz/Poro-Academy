@@ -130,26 +130,31 @@ def procesar_formulario():
         
 @app.route('/bandeja')
 def bandeja():
+    numero_mensajes = Contacto.contar_mensajes_recibidos()
     solicitudes = Contacto.obtener_todas_solicitudes(db)
-    return render_template('bandeja.html', solicitudes=solicitudes)
+    return render_template('bandeja.html', solicitudes=solicitudes, numero_mensajes=numero_mensajes)
+
+
+@app.route('/bandeja/resueltos')
+def bandejaResueltos():
+    solicitudes = Contacto.obtener_todas_solicitudes(db)
+    return render_template('bandejaResueltos.html', solicitudes=solicitudes)
+
+@app.route('/bandeja/eliminados')
+def bandejaEliminados():
+    solicitudes = Contacto.obtener_todas_solicitudes(db)
+    return render_template('bandejaEliminados.html', solicitudes=solicitudes)
+
+@app.route('/bandeja/spam')
+def bandejaSpam():
+    solicitudes = Contacto.obtener_todas_solicitudes(db)
+    return render_template('bandejaSpam.html', solicitudes=solicitudes)
 
 @app.route('/ver_solicitud/<id_solicitud>')
 def ver_solicitud(id_solicitud):
     # Solicitud por su ID
     solicitud = Contacto.obtener_solicitud_por_id(db, id_solicitud)
     return render_template('leer_contacto.html', solicitud=solicitud)
-
-#@app.route("/resolver_solicitud", methods=["POST"])
-#def resolver_solicitud():
-#    id_solicitud = request.json["id_solicitud"]
-#    Contacto.resolver_solicitud(id_solicitud, db) 
-#    return "OK", 200
-
-#@app.route("/marcar_spam", methods=["POST"])
-#def marcar_spam():
-#    id_solicitud = request.json["id_solicitud"]
-#    Contacto.marcar_spam(id_solicitud, db)
-#    return "OK", 200
 
 @app.route("/actualizar_solicitud", methods=["POST"])
 def actualizar_solicitud():

@@ -63,7 +63,12 @@ class Contacto:
     def marcar_spam(id_solicitud, db):
         id_solicitud = str(id_solicitud)
         db.Contacto.update_one({'id_solicitud': id_solicitud}, {'$set': {'estado': 'spam'}})
-    
+
+    @staticmethod
+    def contar_mensajes_recibidos():
+        db = dbConnection()
+        return db.Contacto.count_documents({'estado': 'asignado'})
+
     @staticmethod
     def eliminar_solicitud(id_solicitud, db):
         id_solicitud = str(id_solicitud)
