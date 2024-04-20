@@ -19,7 +19,7 @@
                         <li class="nav-item active">
                             <a href="/bandeja" class="nav-link">
                                 <i class="fas fa-inbox"></i> Recibidos
-                                <span class="badge bg-primary float-right">{{ numero_mensajes }}</span>
+                                <span class="badge bg-primary float-right">12</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -45,52 +45,22 @@
         <div class=" col-sm-12 col-md-12 col-lg-9">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h3 class="card-title">Tus notificaciones recibidas</h3>
+                    <h3 class="card-title">Tus notificaciones resueltas</h3>
                     <!-- /.card-tools -->
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body p-0">
-                    <div class="mailbox-controls">
-                        <!-- Check all button -->
-                        <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i
-                                class="far fa-square"></i>
-                        </button>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm">
-                                <i class="far fa-trash-alt"></i>
-                            </button>
-                            <button type="button" class="btn btn-default btn-sm">
-                                <i class="fas fa-reply"></i>
-                            </button>
-                            <button type="button" class="btn btn-default btn-sm">
-                                <i class="fas fa-share"></i>
-                            </button>
-                        </div>
-                        <!-- /.btn-group -->
-                        <button type="button" class="btn btn-default btn-sm">
-                            <i class="fas fa-sync-alt"></i>
-                        </button>
-                        <!-- /.float-right -->
-                    </div>
                     <div class="table-responsive mailbox-messages">
                         <table class="table table-hover table-striped">
                             <tbody>
                                 {% for solicitud in solicitudes %}
-                                {% if solicitud.estado == 'asignado' %}
-                                <tr>
-                                    <td>
-                                        <div class="icheck-primary">
-                                            <input type="checkbox" value="" id="check1">
-                                            <label for="check1"></label>
-                                        </div>
-                                    </td>
-                                    <td class="mailbox-name"><a
-                                            href="{{ url_for('ver_solicitud', id_solicitud=solicitud.id_solicitud) }}">{{
-                                            solicitud.nombre }}</a></td>
-                                    <td class="mailbox-subject"><b>{{ solicitud.id_solicitud }}</b></td>
-                                    <td>{{ solicitud.email }}</td>
-                                </tr>
-                                {% endif %}
+                                    {% if solicitud.estado == 'resuelto' %}
+                                        <tr>
+                                            <td class="mailbox-name"><a href="{{ url_for('ver_solicitud', id_solicitud=solicitud.id_solicitud) }}">{{ solicitud.nombre }}</a></td>
+                                            <td class="mailbox-subject"><b>{{ solicitud.id_solicitud }}</b></td>
+                                            <td>{{ solicitud.email }}</td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                         </table>
