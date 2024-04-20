@@ -5,6 +5,7 @@ from models.eventos import Eventos
 from models.cursos import Cursos
 from models.calificaciones import Calificaciones
 from models.Usuario import Usuario
+from models.Personal import Personal
 from functools import wraps
 from werkzeug.security import check_password_hash
 from models.Contacto import Contacto
@@ -126,11 +127,12 @@ def procesar_formulario():
             return redirect(url_for('contacto'))
         
 # Bandeja
-        
+       
 @app.route('/bandeja')
-def login_html():
+def login_html_bandeja():
     return render_template('bandeja.html')
 
+    
 #Metodo para enrutar
 @app.route('/eventosUser')
 def eventosUser(): 
@@ -297,7 +299,79 @@ def eliminar_curso(curso_id):
     cursos.delete_one({'_id': ObjectId(curso_id)})
     return redirect(url_for('cursos'))
 
+'''
+Metodos para administrar personal
+'''
 
+#Metodo para enrutar
+@app.route('/listaPersonal', methods=["GET", "POST"])
+def personal(): 
+    personal = db['Personal'] 
+    listaPersonal = personal.find()
+    return render_template('listaPersonal.html', personal=listaPersonal)
+
+# Método get agregar
+@app.route('/listaPersonal/add_personal', methods=['GET'])
+def get_add_personal():
+    # Renderiza el formulario para agregar una nueva calificacion
+    return render_template('add_personal.html')
+
+# Método post agregar
+@app.route('/listaPersonal/add_personal', methods=['POST'])
+def addPersonal():
+    personal = db['Personal']
+    if request.method == 'POST':
+        nombre_completo = request.form['nombre_completo']
+        puesto = request.form['puesto']
+        correo_electronico = request.form['correo_electronico']
+        telefono = request.form['telefono']
+
+        if nombre_completo and puesto and correo_electronico and telefono:
+            persona = Personal(nombre_completo, puesto, correo_electronico, telefono)
+            personal.insert_one(persona.toDBCollection())
+            return redirect(url_for('personal'))
+        else:
+            return notFound()
+    else:
+        return "Método no permitido"  # Manejar el caso de que se intente acceder con otro método que no sea POST
+
+#Metodo Get Edit
+@app.route('/listaPersonal/edit_personal/<string:Personal_id>', methods=['GET'])
+def get_edit_personal(Personal_id):
+    personal = db['Personal']
+    # Obtener el evento de la base de datos
+    persona = personal.find_one({'_id': ObjectId(Personal_id)})
+    if persona:
+        # Pasar los datos del evento a la plantilla para mostrarlos en el formulario
+        return render_template('edit_personal.html', event=persona)
+    else:
+        # Manejar el caso en que el evento no se encuentre en la base de datos
+        return "Persona no encontrada"
+
+#Metodo Post Edit
+@app.route('/listaPersonal/edit_personal/<string:Personal_id>', methods=['POST'])
+def edit_personal(Personal_id):
+    personal = db['Personal']
+    nombre_completo = request.form['nombre_completo']
+    puesto = request.form['puesto']
+    correo_electronico = request.form['correo_electronico']
+    telefono = request.form['telefono']
+
+    if nombre_completo and puesto and correo_electronico and telefono:
+        personal.update_one({'_id': ObjectId(Personal_id)}, {'$set': {'nombre_completo': nombre_completo, 
+                                                                                  'puesto': puesto, 
+                                                                                  'correo_electronico': correo_electronico, 
+                                                                                  'telefono': telefono}})
+        return redirect(url_for('personal'))
+    else:
+        return notFound()
+    
+# Método DELETE
+@app.route('/listaPersonal/delete/<string:Personal_id>', methods=['POST'])
+def deletePersonal(Personal_id):
+    personal = db['Personal']
+    personal.delete_one({'_id': ObjectId(Personal_id)})
+    return redirect(url_for('personal'))
 
 '''
 Metodos para administrar calificaciones
