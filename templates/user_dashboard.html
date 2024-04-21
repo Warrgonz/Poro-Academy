@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1 class="m-0">Hola, {{ session['user']['nombre_completo'] }}</h1>
+                  <h1 class="m-0">Correo: {{ session['user']['correo_electronico'] }}</h1>
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+          <!-- /.content-header -->
+      
+          <!-- Main content -->
+          <div class="content">
+            <div class="container-fluid">
+                <div class="row p-5">
+                    <div class="col-md-6">
+                        <div class="card card-primary d-flex flex-column text-center card-outline">
+                            <div class="card-header">
+                              <h5 class="m-0">Mis calificaciones</h5>
+                            </div>
+                            <div class="card-body d-flex flex-column text-center">
+                                <form action="{{ url_for('user_calificaciones') }}" method="GET" style="display: inline;" >
+                                    <button type="submit" class="btn btn-link">
+                                        <p>Ir</p>
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </form>                                
+                            </div>
+                          </div>
+                    </div>             
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content -->
+            </div>
+{% endblock %}

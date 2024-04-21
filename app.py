@@ -56,7 +56,7 @@ def login():
         if user['rol'] == 'ADMIN':
             return redirect(url_for('dashboard'))
         elif user['rol'] in ['ESTUDIANTE', 'PROFESOR']:
-            return redirect(url_for('userDashboard'))
+            return redirect(url_for('user_dashboard'))
         else:
             return jsonify({"error": "credenciales invalidas"}), 400
     else:
@@ -70,7 +70,7 @@ def dashboard():
 @app.route('/userDashboard')
 @roles_required(['ESTUDIANTE', 'PROFESOR'])
 def user_dashboard():
-    return render_template('userDashboard.html')
+    return render_template('user_dashboard.html')
 
 # Rutas publicas
 
@@ -596,6 +596,16 @@ def edit_calificacion(Calificaciones_id):
         return redirect(url_for('calificaciones'))
     else:
         return notFound()
+    
+'''
+Metodos para mostrar las calificaciones del estudiante
+'''
+@app.route('/user/calificaciones')
+@roles_required(['ESTUDIANTE'])
+def user_calificaciones():
+    calificaciones = db['Calificaciones'].find({'nombre_estudiante': session['user']['nombre_completo']})
+    return render_template('user_calificaciones.html', calificaciones=calificaciones)
+
     
 # Método DELETE
 @app.route('/calificaciones/delete/<string:Calificaciones_id>', methods=['POST'])
