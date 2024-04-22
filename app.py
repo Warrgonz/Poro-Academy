@@ -235,7 +235,6 @@ def addEventos():
         return "Método no permitido"  # Manejar el caso de que se intente acceder con otro método que no sea POST
 
 #Metodo Get Edit
-@roles_required(['ADMIN']) 
 @app.route('/eventos/edit_evento/<string:Eventos_id>', methods=['GET'])
 def get_edit_evento(Eventos_id):
     eventos = db['Eventos']
