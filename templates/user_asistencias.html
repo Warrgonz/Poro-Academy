@@ -11,6 +11,7 @@
     <thead>
       <tr>
         <th>Nombre Estudiante</th>
+        <th>Nombre Curso</th>
         <th>Fecha</th>
         <th>Estado</th>
       </tr>
@@ -19,6 +20,7 @@
       {% for asistencia in asistencias %}
       <tr>
         <td>{{ asistencia.nombre_estudiante }}</td>
+        <td>{{ asistencia.nombre_curso }}</td>
         <td>{{ asistencia.fecha}}</td>
         <td>{{ asistencia.estado }}</td>
       </tr>

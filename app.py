@@ -494,31 +494,31 @@ def asistencias():
     listaAsistencias = asistencias.find()
     return render_template('asistencias.html', asistencias=listaAsistencias)
 
-# Método get para agregar asistencia
+
+# Método Get para agregar asistencia
 @app.route('/asistencias/add_asistencia', methods=['GET'])
 def get_add_asistencia():
     # Renderiza el formulario para agregar una nueva asistencia
     return render_template('add_asistencia.html')
 
-    
+# Método post para agregar asistencia
 @app.route('/asistencias/add_asistencia', methods=['POST'])
 def addAsistencia():
-    asistencias = db['Asistencias']  
+    asistencias = db['Asistencias']
     if request.method == 'POST':
         nombre_estudiante = request.form['nombre_estudiante']
+        nombre_curso = request.form['nombre_curso']
         fecha = request.form['fecha']
         estado = request.form['estado']
 
-        if nombre_estudiante and fecha and estado:
-            asistencia = Asistencias(nombre_estudiante, fecha, estado)
+        if nombre_estudiante and nombre_curso and fecha and estado:
+            asistencia = Asistencias(nombre_estudiante, nombre_curso, fecha, estado)
             asistencias.insert_one(asistencia.toDBCollection())
             return redirect(url_for('asistencias'))
         else:
             return "Todos los campos son requeridos."
     else:
         return "Método no permitido"
-
-
 
 # Método Get para editar asistencia
 @app.route('/asistencias/edit_asistencia/<string:Asistencias_id>', methods=['GET'])
@@ -538,13 +538,15 @@ def get_edit_asistencia(Asistencias_id):
 def edit_asistencia(Asistencias_id):
     asistencias = db['Asistencias']
     nombre_estudiante = request.form['nombre_estudiante']
+    nombre_curso = request.form['nombre_curso']
     fecha = request.form['fecha']
     estado = request.form['estado']
 
-    if nombre_estudiante and fecha and estado:
-        asistencias.update_one({'_id': ObjectId(Asistencias_id)}, {'$set': {'nombre_estudiante': nombre_estudiante, 
-                                                                              'fecha': fecha, 
-                                                                              'estado': estado}})
+    if nombre_estudiante and nombre_curso and fecha and estado:
+        asistencias.update_one({'_id': ObjectId(Asistencias_id)}, {'$set': {'nombre_estudiante': nombre_estudiante,
+                                                                            'nombre_curso': nombre_curso,
+                                                                            'fecha': fecha,
+                                                                            'estado': estado}})
         return redirect(url_for('asistencias'))
     else:
         return notFound()
