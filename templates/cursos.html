@@ -37,9 +37,9 @@
   }
 </style>
 
-    <div class="container mt-3">
+    <div class="container ">
         <div class="titulo-con-boton">
-            <h1 class="text-left">Lista de cursos</h1>
+            <h1 class="text-left mt-3">Lista de cursos</h1>
             <a href="{{ url_for('agregar_curso') }}" class="btn" style="background-color: #F0731F;"> 
                 <span class="text-light" style="text-decoration: none; font-weight: 600;">Agregar curso</span>
             </a>
@@ -52,7 +52,7 @@
             <div class="col-md-8">
     
                 <div class="curso-container">
-                    <img src="https://via.placeholder.com/400" alt="Imagen del curso"> 
+                    <img src="/static//images/Poro.jpg" alt="Imagen del curso"> 
                     <div class="curso-info">
                         <h3>{{curso.nombre }}</h3>
                         <h3>{{curso.profesor }}</h3>
