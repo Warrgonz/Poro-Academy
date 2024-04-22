@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+
+{% block content %}
 
 <section>
   <div class="content-header">
@@ -8,7 +10,12 @@
           <h2 class="h2 fw-bold" style="color: #9dc8e4">Eventos</h2>
         </div>
         <div class="col-sm-6 d-flex justify-content-end">
-          <button type="button" class="btn btn-agregar" data-toggle="modal" data-target="#modal-add">
+          <button
+            type="button"
+            class="btn btn-agregar"
+            data-toggle="modal"
+            data-target="#modal-add"
+          >
             Agregar evento
           </button>
           <div class="modal" id="modal-add">
@@ -16,24 +23,62 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h4 class="modal-title fs-5">Agregar evento</h4>
-                  <a href="{{ url_for('eventos') }}" class="text-decoration-none text-danger"><i class="fa-solid fa-xmark"></i></a>
+                  <a
+                    href="{{ url_for('eventos') }}"
+                    class="text-decoration-none text-danger"
+                  >
+                    <i class="fa-solid fa-xmark"></i>
+                  </a>
                 </div>
                 <div class="modal-body">
                   <form action="{{ url_for('addEventos') }}" method="POST">
                     <div class="mb-3">
-                      <label for="nombre" class="form-label">Nombre del evento</label>
-                      <input type="text" class="form-control" id="nombre" name="nombre" required>
+                      <label for="nombre" class="form-label">
+                        Nombre del evento
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="nombre"
+                        name="nombre"
+                        required
+                      />
                     </div>
                     <div class="mb-3">
-                      <label for="fecha" class="form-label">Fecha del evento</label>
-                      <input type="date" class="form-control" id="fecha" name="fecha" required>
+                      <label for="fecha" class="form-label">
+                        Fecha del evento
+                      </label>
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="fecha"
+                        name="fecha"
+                        required
+                      />
                     </div>
                     <div class="mb-3">
-                      <label for="descripcion" class="form-label">Descripción del evento</label>
-                      <textarea class="form-control" id="descripcion" name="descripcion" required></textarea>
+                      <label for="descripcion" class="form-label">
+                        Descripción del evento
+                      </label>
+                      <textarea
+                        class="form-control"
+                        id="descripcion"
+                        name="descripcion"
+                        required
+                      ></textarea>
                     </div>
                     <div class="d-flex justify-content-end">
-                      <button type="submit" class="btn" style="background-color: #F0731F; color: whitesmoke; font-weight: 600;">Agregar evento</button>
+                      <button
+                        type="submit"
+                        class="btn"
+                        style="
+                          background-color: #f0731f;
+                          color: whitesmoke;
+                          font-weight: 600;
+                        "
+                      >
+                        Agregar evento
+                      </button>
                     </div>
                   </form>
                 </div>
@@ -42,9 +87,11 @@
           </div>
           <!-- /.modal -->
         </div>
-      </div><!-- /.row -->
+      </div>
+      <!-- /.row -->
       <!-- Modal Agregar Usuario-->
-    </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.container-fluid -->
   </div>
 </section>
 
@@ -65,9 +112,12 @@
                 <strong>Fecha de publicación:</strong>
                 {{ evento.fecha}}
               </p>
-             
               <div class="d-flex justify-content-end">
-                <button type="button" class="btn text-primary" onclick="editarEvento('{{ evento.nombre }}', '{{ evento.fecha }}', '{{ evento.descripcion }}', '{{ evento._id }}')">
+                <button
+                  type="button"
+                  class="btn text-primary"
+                  onclick="editarEvento('{{ evento.nombre }}', '{{ evento.fecha }}', '{{ evento.descripcion }}', '{{ evento._id }}')"
+                >
                   <i class="fa-solid fa-pencil"></i>
                 </button>
                 <form
@@ -79,6 +129,7 @@
                   <button type="submit" class="btn btn-link">
                     <i class="fa-solid fa-trash text-danger"></i>
                   </button>
+                </form>
               </div>
             </div>
           </div>
@@ -129,11 +180,7 @@
     document.getElementById("editar_form_evento").action = "/eventos/edit_evento/" + id;
     $('#modal-editar-evento').modal('show');
   }
-</script>
 
-
-
-<script>
   function confirmDelete() {
     if (confirm('¿Estás seguro de que quieres eliminar este evento?')) {
       return true;
@@ -142,7 +189,5 @@
     }
   }
 </script>
-
-
 
 {% endblock %}
