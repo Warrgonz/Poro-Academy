@@ -65,7 +65,7 @@
                 <strong>Fecha de publicación:</strong>
                 {{ evento.fecha}}
               </p>
-              {% if session['user']['rol'] == 'ADMIN' %}
+             
               <div class="d-flex justify-content-end">
                 <button type="button" class="btn text-primary" onclick="editarEvento('{{ evento.nombre }}', '{{ evento.fecha }}', '{{ evento.descripcion }}', '{{ evento._id }}')">
                   <i class="fa-solid fa-pencil"></i>
@@ -80,7 +80,6 @@
                     <i class="fa-solid fa-trash text-danger"></i>
                   </button>
               </div>
-              {% endif %}
             </div>
           </div>
         </div>

@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block content %}
+
+<div
+  class="container d-flex justify-content-between align-items-center pt-4"
+>
+  <h2 class="h2 fw-bold" style="color: #9dc8e4">Mi Asistencia</h2>
+</div>
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre Estudiante</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for asistencia in asistencias %}
+      <tr>
+        <td>{{ asistencia.nombre_estudiante }}</td>
+        <td>{{ asistencia.fecha}}</td>
+        <td>{{ asistencia.estado }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

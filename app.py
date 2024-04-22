@@ -384,18 +384,14 @@ def deleteS(Secciones_seccion, Secciones_id):
 @roles_required(['ESTUDIANTE'])
 def user_seccion():
     nombre_estudiante = session['user']['nombre_completo']
-    
+    print("Nombre del estudiante loggeado: ", nombre_estudiante)
     # Obtener las secciones en las que el estudiante está asignado
     secciones = db['Secciones'].find({'estudiantesAsignados': {'$in': [nombre_estudiante]}})
+    print("Resultado del find: ", secciones)
     
     # Convertir el resultado de la consulta a una lista de diccionarios
     secciones_list = list(secciones)
-    
-    # Iterar sobre cada sección y modificar el formato de estudiantesAsignados
-    for seccion in secciones_list:
-        estudiantes_asignados = seccion.get('estudiantesAsignados', {})
-        estudiantes_list = [estudiantes_asignados[key] for key in sorted(estudiantes_asignados.keys())]
-        seccion['estudiantesAsignados'] = estudiantes_list
+    print("Resultado del find: ", secciones_list)
     
     return render_template('user_seccion.html', secciones=secciones_list)
 
@@ -480,6 +476,14 @@ def eliminar_curso(curso_id):
 '''
 CRUD asistencia 
 '''
+#Metodo para mostrar la asistencia de un estudiante en especifico
+@app.route('/user/asistencias')
+@roles_required(['ESTUDIANTE'])
+def asistencia_estudiante(): 
+    asistencias = db['Asistencias'].find({'nombre_estudiante': session['user']['nombre_completo']})
+    return render_template('user_asistencias.html', asistencias=asistencias)
+
+
 # Método para enrutar y mostrar la lista de asistencias
 @app.route('/asistencias')
 def asistencias(): 
