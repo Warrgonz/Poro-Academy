@@ -5,6 +5,7 @@ from models.eventos import Eventos
 from models.secciones import Secciones
 from models.cursos import Cursos
 from models.calificaciones import Calificaciones
+from models.asistencias import Asistencias
 from models.Usuario import Usuario
 from models.Personal import Personal
 from functools import wraps
@@ -175,7 +176,6 @@ def actualizar_solicitud():
 
     return "OK", 200
 
-
 #Metodo para enrutar
 @app.route('/eventosUser')
 def eventosUser(): 
@@ -206,12 +206,13 @@ def notFound(error = None):
     return response
 
 # Método get agregar
+@roles_required(['ADMIN']) 
 @app.route('/eventos/add_evento', methods=['GET'])
 def get_add_evento():
-    # Renderiza el formulario para agregar un nuevo evento
     return render_template('add_evento.html')
 
 # Método post agregar
+@roles_required(['ADMIN']) 
 @app.route('/eventos/add_evento', methods=['POST'])
 def addEventos():
     eventos = db['Eventos']
@@ -230,19 +231,18 @@ def addEventos():
         return "Método no permitido"  # Manejar el caso de que se intente acceder con otro método que no sea POST
 
 #Metodo Get Edit
+@roles_required(['ADMIN']) 
 @app.route('/eventos/edit_evento/<string:Eventos_id>', methods=['GET'])
 def get_edit_evento(Eventos_id):
     eventos = db['Eventos']
-    # Obtener el evento de la base de datos
     evento = eventos.find_one({'_id': ObjectId(Eventos_id)})
     if evento:
-        # Pasar los datos del evento a la plantilla para mostrarlos en el formulario
         return render_template('edit_evento.html', event=evento)
     else:
-        # Manejar el caso en que el evento no se encuentre en la base de datos
         return "Evento no encontrado"
 
 #Metodo Post Edit
+@roles_required(['ADMIN']) 
 @app.route('/eventos/edit_evento/<string:Eventos_id>', methods=['POST'])
 def edit_evento(Eventos_id):
     eventos = db['Eventos']
@@ -256,7 +256,9 @@ def edit_evento(Eventos_id):
     else:
         return notFound()
 
+
 # Método DELETE
+@roles_required(['ADMIN']) 
 @app.route('/eventos/delete/<string:Eventos_id>', methods=['POST'])
 def delete(Eventos_id):
     eventos = db['Eventos']
@@ -266,40 +268,6 @@ def delete(Eventos_id):
 '''
 Metodo para mostrar los secciones a los usuarios profesores 
 '''
-#Metodo para enrutar
-@app.route('/seccionesUser')
-def seccionesUser():
-    secciones = db['Secciones']
-    lista_secciones = secciones.find()
-
-    # Filtrar secciones duplicadas
-    secciones_unicas = set()
-    for seccion in lista_secciones:
-        secciones_unicas.add(seccion['seccion'])
-
-    return render_template('seccionesUser.html', secciones=list(secciones_unicas))
-
-
-
-@app.route('/seccionesUser/seccionCursos/<string:Secciones_seccion>', methods=['GET'])
-def seccionCursos(Secciones_seccion):
-    secciones = db['Secciones']
-    lista_cursos = secciones.find({'seccion': Secciones_seccion})
-    return render_template('seccionCursos.html', cursos=lista_cursos)
-
-
-
-'''
-Metodos para administrar secciones
-'''
-
-# Método para enrutar y mostrar la lista de secciones
-@app.route('/secciones')
-def secciones():
-    secciones = db['Secciones']
-    lista_secciones = secciones.find()
-    return render_template('secciones.html', secciones=lista_secciones)
-
 # Método para mostrar el error 404
 @app.errorhandler(404)
 def not_found(error=None):
@@ -311,24 +279,57 @@ def not_found(error=None):
     response.status_code = 404
     return response
 
-# Método GET para agregar una nueva sección
+
+#Metodo para enrutar
+@app.route('/secciones')
+def secciones():
+    secciones = db['Secciones']
+    lista_secciones = secciones.find()
+    cursos = list(db['Cursos'].find())  
+
+    secciones_unicas = set()
+    for seccion in lista_secciones:
+        secciones_unicas.add(seccion['seccion'])
+
+    return render_template('secciones.html', secciones=list(secciones_unicas), cursos=cursos)
+
+@app.route('/secciones/seccionCursos/<string:Secciones_seccion>', methods=['GET'])
+def seccionCursos(Secciones_seccion):
+    secciones_collection = db['Secciones']
+    cursos_collection = db['Cursos']
+    cursos = list(db['Cursos'].find())  
+
+    secciones_cursor = secciones_collection.find({'seccion': Secciones_seccion})
+
+    secciones = []
+    for seccion in secciones_cursor:
+        curso_id = seccion['curso_id']
+        curso = cursos_collection.find_one({'_id': ObjectId(curso_id)})
+        profesor = curso.get('profesor', 'Profesor Desconocido')
+        seccion['curso'] = curso['nombre']
+        seccion['profesor'] = profesor
+        secciones.append(seccion)
+
+    return render_template('seccionCursos.html', secciones=secciones, cursos=cursos)
+
+#Metodo get add
 @app.route('/secciones/add_seccion', methods=['GET'])
 def get_add_seccion():
-    return render_template('add_seccion.html')
+    cursos = list(db['Cursos'].find())  
+    return render_template('secciones.html', cursos=cursos)
 
-# Método POST para agregar una nueva sección
+# Método POST add
 @app.route('/secciones/add_seccion', methods=['POST'])
 def add_seccion():
     secciones = db['Secciones']
     if request.method == 'POST':
-        materia = request.form['materia']
-        profesor = request.form['profesor']
+        curso_id = request.form['curso']
         seccion = request.form['seccion']
         horario = request.form['horario']
         estudiantes_asignados = request.form['estudiantesAsignados'].split(',')
 
-        if materia and profesor and seccion and horario and estudiantes_asignados:
-            seccion = Secciones(materia, profesor, seccion, horario, estudiantes_asignados)
+        if curso_id and seccion and horario and estudiantes_asignados:
+            seccion = Secciones(curso_id, seccion, horario, estudiantes_asignados)
             secciones.insert_one(seccion.toDBCollection())
             return redirect(url_for('secciones'))
         else:
@@ -340,40 +341,63 @@ def add_seccion():
 @app.route('/secciones/edit_seccion/<string:Secciones_id>', methods=['GET'])
 def get_edit_seccion(Secciones_id):
     secciones = db['Secciones']
-    # Obtener la sección de la base de datos
     seccion = secciones.find_one({'_id': ObjectId(Secciones_id)})
-    if seccion:
-        # Pasar los datos de la sección a la plantilla para mostrarlos en el formulario
-        return render_template('edit_seccion.html', seccion=seccion)
-    else:
-        # Manejar el caso en que la sección no se encuentre en la base de datos
-        return "Sección no encontrada"
+    cursos = list(db['Cursos'].find())  
 
+    if seccion:
+        return render_template('edit_seccion.html', seccion=seccion, cursos=cursos)
+    else:
+        return "Sección no encontrada", 404 
 
 # Método POST para editar una sección
 @app.route('/secciones/edit_seccion/<string:Secciones_id>', methods=['POST'])
 def edit_seccion(Secciones_id):
     secciones = db['Secciones']
-    materia = request.form['materia']
-    profesor = request.form['profesor']
-    seccion = request.form['seccion']
-    horario = request.form['horario']
+    curso_id = request.form.get('curso')
+    seccion_name = request.form.get('seccion')
+    horario = request.form.get('horario')
     estudiantes_asignados = request.form['estudiantesAsignados'].split(',')
 
-    if materia and profesor and seccion and horario and estudiantes_asignados:
-        secciones.update_one({'_id': ObjectId(Secciones_id)}, {'$set': {'materia': materia, 'profesor': profesor, 'seccion': seccion, 'horario': horario, 'estudiantesAsignados': estudiantes_asignados}})
-        return redirect(url_for('secciones'))
+    if curso_id and seccion_name and horario and estudiantes_asignados:
+        result = secciones.find_one_and_update(
+            {'_id': ObjectId(Secciones_id)},
+            {'$set': {'curso_id': curso_id, 'seccion': seccion_name, 'horario': horario, 'estudiantesAsignados': estudiantes_asignados}}
+        )
+        
+        if result:
+            return redirect(url_for('secciones'))
+        else:
+            return "Error al actualizar la sección", 500
     else:
-        return not_found()
+        return "Faltan campos requeridos", 400  
 
 
 # Método DELETE
-@app.route('/secciones/delete/<string:Secciones_id>', methods=['POST'])
-def deleteS(Secciones_id):
+@app.route('/secciones/seccionCursos/<string:Secciones_seccion>/delete/<string:Secciones_id>', methods=['POST'])
+def deleteS(Secciones_seccion, Secciones_id):
     secciones = db['Secciones']
     secciones.delete_one({'_id': ObjectId(Secciones_id)})
     return redirect(url_for('secciones'))
 
+
+@app.route('/user/seccion')
+@roles_required(['ESTUDIANTE'])
+def user_seccion():
+    nombre_estudiante = session['user']['nombre_completo']
+    
+    # Obtener las secciones en las que el estudiante está asignado
+    secciones = db['Secciones'].find({'estudiantesAsignados': {'$in': [nombre_estudiante]}})
+    
+    # Convertir el resultado de la consulta a una lista de diccionarios
+    secciones_list = list(secciones)
+    
+    # Iterar sobre cada sección y modificar el formato de estudiantesAsignados
+    for seccion in secciones_list:
+        estudiantes_asignados = seccion.get('estudiantesAsignados', {})
+        estudiantes_list = [estudiantes_asignados[key] for key in sorted(estudiantes_asignados.keys())]
+        seccion['estudiantesAsignados'] = estudiantes_list
+    
+    return render_template('user_seccion.html', secciones=secciones_list)
 
 '''
 CRUD cursos 
@@ -451,6 +475,79 @@ def eliminar_curso(curso_id):
     cursos = db['Cursos']  # Ajusta esto a tu colección de cursos
     cursos.delete_one({'_id': ObjectId(curso_id)})
     return redirect(url_for('cursos'))
+
+
+'''
+CRUD asistencia 
+'''
+# Método para enrutar y mostrar la lista de asistencias
+@app.route('/asistencias')
+def asistencias(): 
+    asistencias = db['Asistencias'] 
+    listaAsistencias = asistencias.find()
+    return render_template('asistencias.html', asistencias=listaAsistencias)
+
+# Método get para agregar asistencia
+@app.route('/asistencias/add_asistencia', methods=['GET'])
+def get_add_asistencia():
+    # Renderiza el formulario para agregar una nueva asistencia
+    return render_template('add_asistencia.html')
+
+    
+@app.route('/asistencias/add_asistencia', methods=['POST'])
+def addAsistencia():
+    asistencias = db['Asistencias']  
+    if request.method == 'POST':
+        nombre_estudiante = request.form['nombre_estudiante']
+        fecha = request.form['fecha']
+        estado = request.form['estado']
+
+        if nombre_estudiante and fecha and estado:
+            asistencia = Asistencias(nombre_estudiante, fecha, estado)
+            asistencias.insert_one(asistencia.toDBCollection())
+            return redirect(url_for('asistencias'))
+        else:
+            return "Todos los campos son requeridos."
+    else:
+        return "Método no permitido"
+
+
+
+# Método Get para editar asistencia
+@app.route('/asistencias/edit_asistencia/<string:Asistencias_id>', methods=['GET'])
+def get_edit_asistencia(Asistencias_id):
+    asistencias = db['Asistencias']
+    # Obtener la asistencia de la base de datos
+    asistencia = asistencias.find_one({'_id': ObjectId(Asistencias_id)})
+    if asistencia:
+        # Pasar los datos de la asistencia a la plantilla para mostrarlos en el formulario
+        return render_template('edit_asistencia.html', asistencia=asistencia)
+    else:
+        # Manejar el caso en que la asistencia no se encuentre en la base de datos
+        return "Asistencia no encontrada"
+
+# Método Post para editar asistencia
+@app.route('/asistencias/edit_asistencia/<string:Asistencias_id>', methods=['POST'])
+def edit_asistencia(Asistencias_id):
+    asistencias = db['Asistencias']
+    nombre_estudiante = request.form['nombre_estudiante']
+    fecha = request.form['fecha']
+    estado = request.form['estado']
+
+    if nombre_estudiante and fecha and estado:
+        asistencias.update_one({'_id': ObjectId(Asistencias_id)}, {'$set': {'nombre_estudiante': nombre_estudiante, 
+                                                                              'fecha': fecha, 
+                                                                              'estado': estado}})
+        return redirect(url_for('asistencias'))
+    else:
+        return notFound()
+
+# Método DELETE
+@app.route('/asistencias/delete/<string:Asistencias_id>', methods=['POST'])
+def deleteAsistencia(Asistencias_id):
+    asistencias = db['Asistencias']
+    asistencias.delete_one({'_id': ObjectId(Asistencias_id)})
+    return redirect(url_for('asistencias'))
 
 '''
 Metodos para administrar personal

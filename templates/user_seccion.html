@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Main content -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <!-- Back Button -->
+        <div class="mb-3">
+            <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">
+                <i class="fa fa-arrow-left"></i> Atrás
+            </a>
+        </div>
+        
+        <h2>Mis Secciones</h2>
+
+        <!-- Secciones Table -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Curso</th>
+                    <th>Sección</th>
+                    <th>Horario</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for seccion in secciones %}
+                <tr>
+                    <td>{{ seccion.curso_id }}</td>
+                    <td>{{ seccion.seccion }}</td>
+                    <td>{{ seccion.horario }}</td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div><!-- /.container-fluid -->
+</div>
+
+<!-- /.content -->
+{% endblock %}
+
