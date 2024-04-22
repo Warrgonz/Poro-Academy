@@ -694,6 +694,13 @@ def edit_calificacion(Calificaciones_id):
     else:
         return notFound()
     
+# Método DELETE
+@app.route('/calificaciones/delete/<string:Calificaciones_id>', methods=['POST'])
+def deleteCalificacion(Calificaciones_id):
+    calificaciones = db['Calificaciones']
+    calificaciones.delete_one({'_id': ObjectId(Calificaciones_id)})
+    return redirect(url_for('calificaciones'))
+
 '''
 Metodos para mostrar las calificaciones del estudiante
 '''
@@ -702,14 +709,6 @@ Metodos para mostrar las calificaciones del estudiante
 def user_calificaciones():
     calificaciones = db['Calificaciones'].find({'nombre_estudiante': session['user']['nombre_completo']})
     return render_template('user_calificaciones.html', calificaciones=calificaciones)
-
-    
-# Método DELETE
-@app.route('/calificaciones/delete/<string:Calificaciones_id>', methods=['POST'])
-def deleteCalificacion(Calificaciones_id):
-    calificaciones = db['Calificaciones']
-    calificaciones.delete_one({'_id': ObjectId(Calificaciones_id)})
-    return redirect(url_for('calificaciones'))
 
 # Lanzar aplicación
 if __name__ == '__main__':
