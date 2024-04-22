@@ -384,16 +384,19 @@ def deleteS(Secciones_seccion, Secciones_id):
 @roles_required(['ESTUDIANTE'])
 def user_seccion():
     nombre_estudiante = session['user']['nombre_completo']
-    print("Nombre del estudiante loggeado: ", nombre_estudiante)
-    # Obtener las secciones en las que el estudiante está asignado
     secciones = db['Secciones'].find({'estudiantesAsignados': {'$in': [nombre_estudiante]}})
-    print("Resultado del find: ", secciones)
-    
-    # Convertir el resultado de la consulta a una lista de diccionarios
-    secciones_list = list(secciones)
-    print("Resultado del find: ", secciones_list)
-    
+    secciones_list = list(secciones)  
+
+    # Itera sobre cada sección y agrega el nombre del profesor y del curso
+    for seccion in secciones_list:
+        curso_id = seccion['curso_id']
+        curso = db['Cursos'].find_one({'_id': ObjectId(curso_id)})
+        seccion['nombre_profesor'] = curso.get('profesor', 'Desconocido')
+        seccion['nombre_curso'] = curso.get('nombre', 'Desconocido')
+
+    # Pasar secciones y cursos a la plantilla
     return render_template('user_seccion.html', secciones=secciones_list)
+
 
 '''
 CRUD cursos 
