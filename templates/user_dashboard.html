@@ -2,46 +2,39 @@
 
 {% block content %}
         <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-              <div class="row mb-2">
-                <div class="col-sm-6">
-                  <h1 class="m-0">Hola, {{ session['user']['nombre_completo'] }}</h1>
-                  <h1 class="m-0">Correo: {{ session['user']['correo_electronico'] }}</h1>
-                </div><!-- /.col -->
-              </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
+          <div class="content-header">
+              <div class="container-fluid">
+                <div class="row mb-2">
+                  <div class="col-sm-6">
+                    <h1 class="m-0">Hola, {{ session['user']['nombre_completo'] }}</h1>
+                  </div><!-- /.col -->
+                </div><!-- /.row -->
+              </div><!-- /.container-fluid -->
+          </div>
           <!-- /.content-header -->
+
+          <div class="container">
+              <div class="row">
+                  <div class="col">
+                      <h2 class="mt-4" style="text-align: left;">Noticias escolares</h2>
+                  </div>
+              </div>
+          </div>
       
           <!-- Main content -->
-          <div class="content">
-            <div class="container-fluid">
-                <div class="row p-5">
-                    <div class="col-md-6">
-                        <div class="card card-primary d-flex flex-column text-center card-outline">
-                            <div class="card-header">
-                              <h5 class="m-0">Mis calificaciones</h5>
-                            </div>
-                            <div class="card-body d-flex flex-column text-center">
-                                <form action="{{ url_for('user_calificaciones') }}" method="GET" style="display: inline;" >
-                                    <button type="submit" class="btn btn-link">
-                                        <p>Ir</p>
-                                        <i class="fa-solid fa-magnifying-glass"></i>
-                                    </button>
-                                </form>                                
-                            </div>
-                            <div class="card-body d-flex flex-column text-center">
-                              <form action="{{ url_for('user_seccion') }}" method="GET" style="display: inline;" >
-                                  <button type="submit" class="btn btn-link">
-                                      <p>Ir secciones</p>
-                                  </button>
-                              </form>                                
+          <div class="container pt-4">
+            <div class="row">
+              {% for evento in eventos %}
+                  <div class="col-sm-6 ">
+                      <div class="card border-0 custom-card">
+                          <div class="card-body" style="background-color: #e7e7e794; color:#1F5D83;">
+                              <h5 class="card-title">{{ evento.nombre }}</h5>
+                              <p class="card-text">{{ evento.descripcion }}</p>
+                              <p class="card-text"><strong>Fecha de publicación: </strong>{{ evento.fecha}}</p>
                           </div>
-                          </div>
-                    </div>             
-                </div><!-- /.container-fluid -->
+                      </div>
+                  </div>
+              {% endfor %}
             </div>
-            <!-- /.content -->
-            </div>
+          </div>
 {% endblock %}

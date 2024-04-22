@@ -1,49 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
+
         <!-- Content Header (Page header) -->
         <div class="content-header">
-            <div class="container-fluid">
-              <div class="row mb-2">
-                <div class="col-sm-6">
-                  <h1 class="m-0">Hola, {{ session['user']['nombre_completo'] }}</h1>
-                </div><!-- /.col -->
-              </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-          </div>
-          <!-- /.content-header -->
-      
-          <!-- Main content -->
-          <div class="content">
-            <div class="container-fluid">
-                <div class="img-bannerdash">
-                    <img src="/static/images/img-dashboard.jpg" width="100%" alt="dashboard image">
-                </div>
-                <div class="row p-5">
-                    <div class="col-md-6">
-                        <div class="card card-primary d-flex flex-column text-center card-outline">
-                            <div class="card-header">
-                              <h5 class="m-0">Estudiantes activos</h5>
-                            </div>
-                            <div class="card-body d-flex flex-column text-center">
-                              <h3>1030</h3>
-                            </div>
-                          </div>
-                    </div>
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1 class="m-0">Hola, {{ session['user']['nombre_completo'] }}</h1>
+              </div><!-- /.col -->
+            </div><!-- /.row -->
+          </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
 
-                    <div class="col-md-6">
-                        <div class="card card-primary d-flex flex-column text-center card-outline">
-                            <div class="card-header">
-                              <h5 class="m-0">Bandeja de entrada</h5>
-                            </div>
-                            <div class="card-body d-flex flex-column text-center">
-                              <h3>5</h3>
-                            </div>
-                          </div>
-                    </div>
-
-             
-            </div><!-- /.container-fluid -->
+      <div class="container">
+          <div class="row">
+              <div class="col">
+                  <h2 class="mt-4" style="text-align: left;">Noticias escolares</h2>
+              </div>
           </div>
-          <!-- /.content -->
+      </div>
+  
+      <!-- Main content -->
+      <div class="container pt-4">
+        <div class="row">
+          {% for evento in eventos %}
+              <div class="col-sm-6 ">
+                  <div class="card border-0 custom-card">
+                      <div class="card-body" style="background-color: #e7e7e794; color:#1F5D83;">
+                          <h5 class="card-title">{{ evento.nombre }}</h5>
+                          <p class="card-text">{{ evento.descripcion }}</p>
+                          <p class="card-text"><strong>Fecha de publicación: </strong>{{ evento.fecha}}</p>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
+        </div>
+      </div>
+
 {% endblock %}

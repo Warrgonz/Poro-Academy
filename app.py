@@ -66,12 +66,16 @@ def login():
 @app.route('/dashboard')
 @roles_required(['ADMIN']) # Asi se especifica a qué lugares va poder acceder cada rol.
 def dashboard():
-    return render_template('dashboard.html')
+    eventos = db['Eventos'] 
+    listaEventos = eventos.find()
+    return render_template('dashboard.html', eventos = listaEventos)
 
 @app.route('/userDashboard')
 @roles_required(['ESTUDIANTE', 'PROFESOR'])
 def user_dashboard():
-    return render_template('user_dashboard.html')
+    eventos = db['Eventos'] 
+    listaEventos = eventos.find()
+    return render_template('user_dashboard.html', eventos = listaEventos)
 
 # Rutas publicas
 

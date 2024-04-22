@@ -93,19 +93,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             >
               <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-
-              <!--Inicio-->
-              <li class="nav-item">
-                <a href="/dashboard" class="nav-link">
-                  <ion-icon name="home-sharp"></ion-icon>
-                  <p>
-                    Inicio
-                    <!--  <span class="right badge badge-danger">New</span> -->
-                  </p>
-                </a>
-              </li>
+              
               {% if 'user' in session %} 
                 {% if session['user']['rol'] == 'ADMIN'%}
+                  <!-- Inicio para admin -->
+                  <li class="nav-item">
+                    <a href="/dashboard" class="nav-link">
+                      <ion-icon name="home-sharp"></ion-icon>
+                      <p>
+                        Inicio
+                        <!--  <span class="right badge badge-danger">New</span> -->
+                      </p>
+                    </a>
+                  </li>
                   <!--Usuarios-->
                   <li class="nav-item">
                     <a href="/user/signup" class="nav-link">
@@ -167,6 +167,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </li>
                 {% endif %} 
                 {% if session['user']['rol'] == 'PROFESOR' %}
+                  <li class="nav-item">
+                    <a href="{{ url_for('user_dashboard') }}" class="nav-link">
+                      <ion-icon name="home-sharp"></ion-icon>
+                      <p>Inicio</p>
+                    </a>
+                  </li>                 
                   <!--Secciones-->
                   <li class="nav-item">
                     <a href="{{ url_for('secciones') }}" class="nav-link">
@@ -223,6 +229,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </li>
                 {% endif %}
                 {% if session['user']['rol'] == 'ESTUDIANTE' %}
+                <li class="nav-item">
+                  <a href="{{ url_for('user_dashboard') }}" class="nav-link">
+                    <ion-icon name="home-sharp"></ion-icon>
+                    <p>Inicio</p>
+                  </a>
+                </li>
                   <!--Calificaciones-->
                   <li class="nav-item">
                     <a href="{{ url_for('user_calificaciones') }}" class="nav-link">
