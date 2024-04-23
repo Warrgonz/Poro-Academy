@@ -1,0 +1,9 @@
+/* 
+
+1. Font Family en las vistas public
+2. Agregarle contenido verdadero a las vistas public, no lorem impsu.
+
+
+
+
+*/
