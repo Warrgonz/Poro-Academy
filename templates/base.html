@@ -166,6 +166,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </p>
                     </a>
                   </li>
+                  <!--Bandeja-->
+                  <li class="nav-item">
+                    <a href="/bandeja" class="nav-link">
+                      <!--Inv como settear activo dependiendo de la vista-->
+                      <ion-icon name="file-tray-sharp"></ion-icon>
+                      <p>
+                        Bandeja
+                        <!--  <span class="right badge badge-danger">New</span> -->
+                      </p>
+                    </a>
+                  </li>
                 {% endif %} 
                 {% if session['user']['rol'] == 'PROFESOR' %}
                   <li class="nav-item">
@@ -292,17 +303,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </li>
                 {% endif %} 
               {% endif %}
-              <!--Bandeja-->
-              <li class="nav-item">
-                <a href="/bandeja" class="nav-link">
-                  <!--Inv como settear activo dependiendo de la vista-->
-                  <ion-icon name="file-tray-sharp"></ion-icon>
-                  <p>
-                    Bandeja
-                    <!--  <span class="right badge badge-danger">New</span> -->
-                  </p>
-                </a>
-              </li>
 
               <li class="nav-item">
                 <a href="/user/signout" class="nav-link">
