@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h2 class="h2 fw-bold" style="color: #9dc8e4">Eventos</h2>
+        </div>
+        <div class="col-sm-6 d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn btn-agregar"
+            data-toggle="modal"
+            data-target="#modal-add"
+          >
+            Agregar evento
+          </button>
+          <div class="modal" id="modal-add">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title fs-5">Agregar evento</h4>
+                  <a
+                    href="{{ url_for('eventos') }}"
+                    class="text-decoration-none text-danger"
+                  >
+                    <i class="fa-solid fa-xmark"></i>
+                  </a>
+                </div>
+                <div class="modal-body">
+                  <form action="{{ url_for('addEventos') }}" method="POST">
+                    <div class="mb-3">
+                      <label for="nombre" class="form-label">
+                        Nombre del evento
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="nombre"
+                        name="nombre"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="fecha" class="form-label">
+                        Fecha del evento
+                      </label>
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="fecha"
+                        name="fecha"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label for="descripcion" class="form-label">
+                        Descripción del evento
+                      </label>
+                      <textarea
+                        class="form-control"
+                        id="descripcion"
+                        name="descripcion"
+                        required
+                      ></textarea>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                      <button
+                        type="submit"
+                        class="btn"
+                        style="
+                          background-color: #f0731f;
+                          color: whitesmoke;
+                          font-weight: 600;
+                        "
+                      >
+                        Agregar evento
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.modal -->
+        </div>
+      </div>
+      <!-- /.row -->
+      <!-- Modal Agregar Usuario-->
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+</section>
+
+<div class="content">
+  <div class="container-fluid">
+    <div class="row p-5">
+      {% for evento in eventos %}
+      <div class="card-deck" style="margin-top: 1rem">
+        <div class="col-12">
+          <div
+            class="card w-500 border-0"
+            style="background-color: #e7e7e794; color: #1f5d83"
+          >
+            <div class="card-body">
+              <h5 class="card-title">{{ evento.nombre }}</h5>
+              <p class="card-text">{{ evento.descripcion }}</p>
+              <p class="card-text">
+                <strong>Fecha de publicación:</strong>
+                {{ evento.fecha}}
+              </p>
+              <div class="d-flex justify-content-end">
+                <button
+                  type="button"
+                  class="btn text-primary"
+                  onclick="editarEvento('{{ evento.nombre }}', '{{ evento.fecha }}', '{{ evento.descripcion }}', '{{ evento._id }}')"
+                >
+                  <i class="fa-solid fa-pencil"></i>
+                </button>
+                <form
+                  action="{{ url_for('delete', Eventos_id=evento._id) }}"
+                  method="POST"
+                  style="display: inline"
+                  onsubmit="return confirmDelete()"
+                >
+                  <button type="submit" class="btn btn-link">
+                    <i class="fa-solid fa-trash text-danger"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal" id="modal-editar-evento">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title fs-5">Editar evento</h4>
+        <a href="{{ url_for('eventos') }}" class="text-decoration-none text-danger"><i class="fa-solid fa-xmark"></i></a>
+      </div>
+      <div class="modal-body">
+        <form id="editar_form_evento" method="POST">
+          <input type="hidden" id="evento_id" name="_id">
+          <div class="mb-3">
+            <label for="nombre_editar_evento" class="form-label">Nombre del evento</label>
+            <input type="text" class="form-control" id="nombre_editar_evento" name="nombre" style="width: 100%;" required>
+          </div>
+          <div class="mb-3">
+            <label for="fecha_editar_evento" class="form-label">Fecha del evento</label>
+            <input type="date" class="form-control" id="fecha_editar_evento" name="fecha" style="width: 100%;" required>
+          </div>
+          <div class="mb-3">
+            <label for="descripcion_editar_evento" class="form-label">Descripción del evento</label>
+            <textarea class="form-control" id="descripcion_editar_evento" name="descripcion" style="width: 100%;" required></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn" style="background-color: #F0731F; color: whitesmoke; font-weight: 600;">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function editarEvento(nombre, fecha, descripcion, id) {
+    document.getElementById("nombre_editar_evento").value = nombre;
+    document.getElementById("fecha_editar_evento").value = fecha;
+    document.getElementById("descripcion_editar_evento").value = descripcion;
+    document.getElementById("evento_id").value = id;
+    document.getElementById("editar_form_evento").action = "/eventos/edit_evento/" + id;
+    $('#modal-editar-evento').modal('show');
+  }
+
+  function confirmDelete() {
+    if (confirm('¿Estás seguro de que quieres eliminar este evento?')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+</script>
+
+{% endblock %}

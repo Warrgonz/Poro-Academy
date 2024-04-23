@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <!-- Content Header (Page header) -->
+          <div class="content-header">
+              <div class="container-fluid">
+                <div class="row mb-2">
+                  <div class="col-sm-6">
+                    <h1 class="m-0">Hola, {{ session['user']['nombre_completo'] }}</h1>
+                  </div><!-- /.col -->
+                </div><!-- /.row -->
+              </div><!-- /.container-fluid -->
+          </div>
+          <!-- /.content-header -->
+
+          <div class="container">
+              <div class="row">
+                  <div class="col">
+                      <h2 class="mt-4" style="text-align: left;">Noticias escolares</h2>
+                  </div>
+              </div>
+          </div>
+      
+          <!-- Main content -->
+          <div class="container pt-4">
+            <div class="row">
+              {% for evento in eventos %}
+                  <div class="col-sm-6 ">
+                      <div class="card border-0 custom-card">
+                          <div class="card-body" style="background-color: #e7e7e794; color:#1F5D83;">
+                              <h5 class="card-title">{{ evento.nombre }}</h5>
+                              <p class="card-text">{{ evento.descripcion }}</p>
+                              <p class="card-text"><strong>Fecha de publicación: </strong>{{ evento.fecha}}</p>
+                          </div>
+                      </div>
+                  </div>
+              {% endfor %}
+            </div>
+          </div>
+{% endblock %}

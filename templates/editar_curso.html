@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <style>
+        .curso-container {
+            border: 1px solid #ccc;
+            border-radius: 10px; 
+            padding: 20px; 
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .curso-container img {
+            max-width: 250px;
+            height: auto;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        .curso-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .curso-info h3 {
+            font-size: 1.5rem; 
+            margin: 0;
+        }
+        .boton-centrado {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+    </style>
+
+    <div class="container mt-3">
+        <div class="titulo-con-boton">
+            <h1 class="text-left">Editar Curso</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <form action="{{ url_for('editar_curso', curso_id=curso._id) }}" method="POST">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre del Curso</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre del curso" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="profesor" class="form-label">Nombre del Profesor</label>
+                        <input type="text" class="form-control" id="profesor" name="profesor" placeholder="Ingrese el nombre del profesor" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="Ingrese una breve descripción del curso" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Editar Curso</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-hzboRo/EnZzAOEoyyDbn5yfcjgFfLXn4Z0eWUusxQV+9ZcMkxbIKp1s9l9iuM2Qx" crossorigin="anonymous"></script>
+
+    {% endblock %}

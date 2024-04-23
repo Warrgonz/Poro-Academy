@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h2 class="h2 fw-bold" style="color: #9dc8e4">Mis cursos</h2>
+        </div>
+    </div><!-- /.row -->
+    <!-- Modal Agregar Usuario-->
+  </div><!-- /.container-fluid -->
+</div>
+</section>
+
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Curso</th>
+                    <th>Profesor</th>
+                    <th>Sección</th>
+                    <th>Horario</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for seccion in secciones %}
+                <tr>
+                    <td>{{ seccion.nombre_curso }}</td>
+                    <td>{{ seccion.nombre_profesor }}</td>
+                    <td>{{ seccion.seccion }}</td>
+                    <td>{{ seccion.horario }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div><!-- /.container-fluid -->
+</div>
+
+
+<!-- /.content -->
+{% endblock %}
+

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container d-flex justify-content-between align-items-center" style="margin-top: 1rem;">
+        <h1 class="h2 fw-bold" style="color:#9DC8E4;">Agregar calificación</h1>
+    </div>
+
+    <div class="container">
+        <div class="card-deck" style="margin-top: 1rem;">
+            <div class="col-sm-8">
+                <div class="card w-500 border-0" style="background-color: #e7e7e794; color:#1F5D83; font-weight: 600;">
+                    <div class="card-body">
+                        <form action="{{ url_for('addCalificaciones') }}" method="POST">
+                            <div class="mb-3">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <label for="nombre" class="form-label">Nombre del estudiante:</label>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control border-0" id="nombre_estudiante" name="nombre_estudiante" style="width: 100%;"  required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <label for="nombre_curso" class="form-label">Nombre del curso:</label>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control border-0" id="nombre_curso" name="nombre_curso" style="width: 100%;"  required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <label for="seccion" class="form-label">Sección:</label>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control border-0" id="seccion" name="seccion" style="width: 100%;"  required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <label for="rubro" class="form-label">Rubro:</label>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control border-0" id="rubro" name="rubro" style="width: 100%;"  required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <label for="calificacion" class="form-label">Calificación:</label>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control border-0" id="calificacion" name="calificacion" style="width: 100%;"  required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn"  style="background-color: #F0731F; color:whitesmoke; font-weight: 600;">Agregar calificación</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% endblock %}

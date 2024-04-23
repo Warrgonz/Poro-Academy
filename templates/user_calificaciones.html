@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <!-- Back Button -->
+        <div class="mb-3">
+            <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">
+                <i class="fa fa-arrow-left"></i> Atrás
+            </a>
+        </div>
+        
+        <h2>Mis Calificaciones</h2>
+
+        <!-- Calificaciones Table -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre Estudiante</th>
+                    <th>Nombre Curso</th>
+                    <th>Sección</th>
+                    <th>Rubro</th>
+                    <th>Calificación</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for calificacion in calificaciones %}
+                <tr>
+                    <td>{{ calificacion.nombre_estudiante }}</td>
+                    <td>{{ calificacion.nombre_curso }}</td>
+                    <td>{{ calificacion.seccion }}</td>
+                    <td>{{ calificacion.rubro }}</td>
+                    <td>{{ calificacion.calificacion }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+{% endblock %}
+

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container pt-4">
+      <div class="row">
+        {% for evento in eventos %}
+            <div class="col-sm-6 ">
+                <div class="card border-0 custom-card">
+                    <div class="card-body" style="background-color: #e7e7e794; color:#1F5D83;">
+                        <h5 class="card-title">{{ evento.nombre }}</h5>
+                        <p class="card-text">{{ evento.descripcion }}</p>
+                        <p class="card-text"><strong>Fecha de publicación: </strong>{{ evento.fecha}}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+      </div>
+    </div>
+    
+    {% endblock %}

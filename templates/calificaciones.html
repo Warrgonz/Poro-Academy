@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+        <div class="container d-flex justify-content-between align-items-center" style="margin-top: 1rem;">
+            <h2 class="h2 fw-bold" style="color:#9DC8E4;">Calificaciones</h2>
+
+            <a href="{{ url_for('get_add_calificacion') }}" class="btn" style="background-color: #F0731F;"> 
+                <span class="text-light" style="text-decoration: none; font-weight: 600;">Agregar una calificación</span>
+            </a>
+            
+        </div>
+
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre Estudiante</th>
+                        <th>Nombre Curso</th>
+                        <th>Seccion</th>
+                        <th>Rubro</th>
+                        <th>Calificación</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for calificacion in calificaciones %}
+                    <tr>
+                        <td>{{ calificacion.nombre_estudiante }}</td>
+                        <td>{{ calificacion.nombre_curso }}</td>
+                        <td>{{ calificacion.seccion }}</td>
+                        <td>{{ calificacion.rubro }}</td>
+                        <td>{{ calificacion.calificacion }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_calificacion', Calificaciones_id=calificacion._id) }}" class="btn btn-link"><i class="fa-solid fa-pencil"></i></a>
+                        </td>
+                        <td>
+                            <form action="{{ url_for('deleteCalificacion', Calificaciones_id=calificacion._id) }}" method="POST" style="display: inline;" onsubmit="return confirmDelete()">
+                                <button type="submit" class="btn btn-link">
+                                    <i class="fa-solid fa-trash text-danger"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        
+
+    <script>
+        function confirmDelete() {
+            if (confirm("¿Estás seguro de que quieres eliminar esta calificación?")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
+
+{% endblock %}

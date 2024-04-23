@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Lista de personal</h1>
+        </div>
+        <div class="col-sm-6 d-flex justify-content-end">
+          <a href="{{ url_for('get_add_personal') }}" class="btn" style="background-color: #F0731F;"> 
+            <span class="text-light" style="text-decoration: none; font-weight: 600;">Agregar nuevo personal</span>
+        </a>
+        </div>
+      </div>
+    </div>
+</section>
+
+<section class="container table-responsive">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">ID</th> <!-- Nueva columna para el ID -->
+          <th scope="col">Nombre</th>
+          <th scope="col">Puesto</th>
+          <th scope="col">Correo Electrónico</th>
+          <th scope="col">Teléfono</th>
+          <th scope="col">Acciones</th> <!-- Nueva columna para las acciones -->
+        </tr>
+      </thead>
+      <tbody>
+        {% for personal in personal %}
+        <tr>
+          <td>{{ personal._id }}</td> <!-- Muestra el índice del usuario -->
+          <td>{{ personal.nombre_completo }}</td>
+          <td>{{ personal.puesto }}</td>
+          <td>{{ personal.correo_electronico }}</td>
+          <td>{{ personal.telefono }}</td>
+          <td>
+            <a href="{{ url_for('get_edit_personal', Personal_id=personal._id) }}" class="btn btn-link"><i class="fa-solid fa-pencil"></i></a>
+            <form action="{{ url_for('deletePersonal', Personal_id=personal._id) }}" method="POST" style="display: inline;" onsubmit="return confirmDelete()">
+                <button type="submit" class="btn btn-link">
+                    <i class="fa-solid fa-trash text-danger"></i>
+                </button>
+            </form>
+          </td>          
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <script>
+      function confirmDelete() {
+          if (confirm("¿Estás seguro de que quieres eliminar este miembro del personal?")) {
+              return true;
+          } else {
+              return false;
+          }
+      }
+  </script>
+
+  </section>
+
+{% endblock %}
